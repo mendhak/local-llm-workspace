@@ -1,0 +1,19 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "llamaserver/my-model",
+  "provider": {
+    "llamaserver": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "llama-server",
+      "options": {
+        "baseURL": "http://llama-server:8080/v1"
+      },
+      "models": {
+        "my-model": {
+          "name": "Qwen3.5-35B-A3B-MXFP4_MOE.gguf",
+          "tools": true
+        }
+      }
+    }
+  }
+}
