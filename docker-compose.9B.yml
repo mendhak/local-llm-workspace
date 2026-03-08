@@ -1,0 +1,78 @@
+services:
+  llama-server:
+    image: local/llama.cpp:server-cuda-20260307
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    ports:
+      - "8080:8080"
+    volumes:
+      - /mnt/Extra/Models:/models
+    command: >
+      -m /models/Qwen3.5-9B-Q8_0.gguf
+      --port 8080
+      --host 0.0.0.0
+      -c 8192
+      -ngl -1
+      --mmap
+      --temp 0.7 --top_p 0.8 --top_k 20 --min_p 0.0 --presence_penalty 1.5 --repeat_penalty 1.0
+      -ctk f16 -ctv f16
+      -np 1
+      -fa on
+      --ubatch-size 1024 --batch-size 4096
+      --sleep-idle-seconds 300
+      --chat-template-kwargs '{"enable_thinking": false}'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:latest
+    container_name: open-webui
+    ports:
+      - "3000:8080"
+    volumes:
+      - open-webui:/app/backend/data
+
+  open-terminal:
+    image: ghcr.io/open-webui/open-terminal
+    container_name: open-terminal
+    ports:
+      - "8000:8000"
+    volumes:
+      - open-terminal:/home/user
+    environment:
+      - OPEN_TERMINAL_API_KEY=your-secret-key
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: "2.0"
+      
+
+  # opencode:
+  #   image: ghcr.io/anomalyco/opencode
+  #   stdin_open: true
+  #   tty: true
+  #   command: >
+  #     web
+  #     --hostname 0.0.0.0
+  #   ports:
+  #     - "0.0.0.0:4096:4096"
+  #   volumes:
+  #     - ${PWD}/opencode.json:/root/.config/opencode/opencode.json
+  #   depends_on:
+  #     llama-server:
+  #       condition: service_healthy
+
+
+volumes:
+  open-webui:
+  open-terminal:
