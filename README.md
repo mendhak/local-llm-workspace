@@ -1,11 +1,10 @@
 # Model download
 
-Download the files from here:  https://huggingface.co/unsloth/Qwen3-Coder-Next-GGUF/tree/main
+From https://huggingface.co/unsloth/Qwen3-Coder-Next-GGUF/tree/main I downloaded Qwen3-Coder-Next-MXFP4_MOE.gguf
 
-I downloaded
+From https://huggingface.co/unsloth/Qwen3.5-35B-A3B-GGUF/tree/main I downloaded Qwen3.5-35B-A3B-MXFP4_MOE.gguf 
 
-- Qwen3-Coder-Next-MXFP4_MOE.gguf
-- Qwen3.5-35B-A3B-MXFP4_MOE.gguf
+From https://huggingface.co/unsloth/Qwen3.5-27B-GGUF/tree/main I downloaded Qwen3.5-27B-IQ4_XS.gguf and Qwen3.5-27B-Q3_K_M.gguf
 
 
 # Build for RTX 5080 and Cuda 13.1
