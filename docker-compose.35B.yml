@@ -18,10 +18,12 @@ services:
       --host 0.0.0.0
       -c 32768
       -ngl -1
+      -t 8
+      --n-cpu-moe 12
       --temp 0.7 --top_p 0.8 --top_k 20 --min_p 0.0 --presence_penalty 1.5 --repeat_penalty 1.0
       --fit on
-      -ctk q8_0
-      -ctv q8_0
+      -ctk q4_0
+      -ctv q4_0
       -sm none
       -mg 0
       -np 1
