@@ -16,14 +16,14 @@ services:
       -m /models/Qwen3.5-9B-Q8_0.gguf
       --port 8080
       --host 0.0.0.0
-      -c 8192
+      -c 32768
       -ngl -1
       --mmap
       --temp 0.7 --top_p 0.8 --top_k 20 --min_p 0.0 --presence_penalty 1.5 --repeat_penalty 1.0
       -ctk f16 -ctv f16
       -np 1
       -fa on
-      --ubatch-size 1024 --batch-size 4096
+      --ubatch-size 1024 --batch-size 8192
       --sleep-idle-seconds 300
       --chat-template-kwargs '{"enable_thinking": false}'
     healthcheck:
