@@ -7,7 +7,7 @@ From https://huggingface.co/unsloth/Qwen3.5-35B-A3B-GGUF/tree/main I downloaded 
 From https://huggingface.co/unsloth/Qwen3.5-27B-GGUF/tree/main I downloaded Qwen3.5-27B-IQ4_XS.gguf and Qwen3.5-27B-Q3_K_M.gguf
 
 
-# Build for RTX 5080 and Cuda 13.1
+# Build llama.cpp for RTX 5080 and Cuda 13.1
 
 Clone https://github.com/ggml-org/llama.cpp, then:
 

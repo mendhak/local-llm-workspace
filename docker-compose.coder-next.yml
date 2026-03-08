@@ -1,0 +1,35 @@
+services:
+  coder-next:
+    image: local/llama.cpp:server-cuda-20260307
+    container_name: coder-next
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    ports:
+      - "8080:8080"
+    volumes:
+      - /mnt/Extra/Models:/models
+    environment:
+      - GGML_CUDA_GRAPH_OPT=1
+    command: >
+      -m /models/Qwen3-Coder-Next-MXFP4_MOE.gguf
+      --port 8080
+      --host 0.0.0.0
+      --temp 1.0
+      --top-p 0.95
+      --top-k 40
+      --n-gpu-layers -1
+      --ctx-size 32768
+      --flash-attn on
+      --no-warmup
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
