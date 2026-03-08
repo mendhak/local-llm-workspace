@@ -16,7 +16,7 @@ services:
       -m /models/Qwen3.5-27B-Q3_K_M.gguf
       --port 8080
       --host 0.0.0.0
-      -c 4096
+      -c 16384
       -ngl 99
       -t 8
       --no-mmap
