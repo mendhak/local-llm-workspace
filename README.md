@@ -6,8 +6,11 @@ From https://huggingface.co/unsloth/Qwen3.5-35B-A3B-GGUF/tree/main I downloaded 
 
 From https://huggingface.co/unsloth/Qwen3.5-27B-GGUF/tree/main I downloaded Qwen3.5-27B-IQ4_XS.gguf and Qwen3.5-27B-Q3_K_M.gguf
 
+From https://huggingface.co/unsloth/Qwen3.5-9B-GGUF/tree/main I downloaded Qwen3.5-9B-Q8_0.gguf
 
 # Build llama.cpp for RTX 5080 and Cuda 13.1
+
+On my system, the CUDA version was newer than the llama.cpp docker images had, so I had to build it myself. 
 
 Clone https://github.com/ggml-org/llama.cpp, then:
 
@@ -56,8 +59,18 @@ docker compose -f docker-compose.27B.Q3.yml up llama-server
 
 I got about 38 tokens per second
 
+Qwen3.5 9B Q8_0
+
+```
+docker compose -f docker-compose.9B.yml up llama-server
+```
+
+I get about 58 tokens per second
+
 
 ## Benchmarking with llama-bench
+
+This is a good way of running multiple benchmarks in one go, it outputs the processing speed and token generation speed. 
 
 ```
 docker run --rm  --gpus all -v /mnt/Extra/Models:/models --entrypoint ./llama-bench local/llama.cpp:full20260307 -m /models/Qwen3.5-9B-Q8_0.gguf -ngl 99 -b 4096,8192,16384 -ub 512,1024,2048,4096,8192 -t 8 -fa 1 -ctk q8_0,f16,bf16,q4_0 -ctv q8_0,f16,bf16,q4_0 -p 512 -n 128 --mmap 1,0 

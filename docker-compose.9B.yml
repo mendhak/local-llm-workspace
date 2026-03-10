@@ -1,17 +1,8 @@
 services:
   llama-server:
-    image: local/llama.cpp:server-cuda-20260307
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
-    ports:
-      - "8080:8080"
-    volumes:
-      - /mnt/Extra/Models:/models
+    extends:
+      file: compose-common.yml
+      service: llama-server
     command: >
       -m /models/Qwen3.5-9B-Q8_0.gguf
       --port 8080
@@ -27,12 +18,7 @@ services:
       --ubatch-size 4096 --batch-size 4096
       --sleep-idle-seconds 300
       --chat-template-kwargs '{"enable_thinking": false}'
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
+
 
   open-webui:
     image: ghcr.io/open-webui/open-webui:latest
