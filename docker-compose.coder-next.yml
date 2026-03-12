@@ -1,7 +1,7 @@
 services:
-  coder-next:
+  llama-server:
     image: local/llama.cpp:server-cuda-20260307
-    container_name: coder-next
+    container_name: llama-server
     deploy:
       resources:
         reservations:
