@@ -1,0 +1,22 @@
+services:
+  llama-server:
+    image: ghcr.io/ggml-org/llama.cpp:server
+    container_name: llama-server
+    ports:
+      - "8080:8080"
+    volumes:
+      - /mnt/Extra/Models:/models
+    command: >
+      -m /models/Qwen3.5-4B-Q4_K_M.gguf
+      --port 8080
+      --host 0.0.0.0
+      -c 32768
+      -t 8
+      --mmap
+      --temp 0.7 --top_p 0.8 --top_k 20 --min_p 0.0 --presence_penalty 1.5 --repeat_penalty 1.0
+      -ctk f16 -ctv f16
+      -np 1
+      -fa on
+      --ubatch-size 4096 --batch-size 4096
+      --sleep-idle-seconds 300
+      --chat-template-kwargs '{"enable_thinking": false}'
