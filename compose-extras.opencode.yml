@@ -12,6 +12,8 @@ services:
       - "0.0.0.0:4096:4096"
     volumes:
       - ${PWD}/opencode.json:/root/.config/opencode/opencode.json
+      - ${PWD}:/home
+    working_dir: /home
     depends_on:
       llama-server:
         condition: service_healthy
