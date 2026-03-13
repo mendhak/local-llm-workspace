@@ -4,19 +4,17 @@ services:
       file: compose-common.yml
       service: llama-server
     command: >
-      -m /models/Qwen3.5-35B-A3B-UD-Q4_K_XL.gguf
+      --model /models/Qwen3.5-35B-A3B-UD-Q4_K_XL.gguf
       --port 8080
       --host 0.0.0.0
-      -c 32768
-      -ngl -1
-      -t 8
-      --n-cpu-moe 12
+      --threads 8
       --temp 0.7 --top_p 0.8 --top_k 20 --min_p 0.0 --presence_penalty 1.5 --repeat_penalty 1.0
       --fit on
-      -ctk q4_0 -ctv q4_0
-      -sm none
-      -mg 0
-      -np 1
-      -fa on
+      --fit-target 512
+      --fit-ctx 32768
+      --cache-type-k q4_0 --cache-type-v q4_0
+      --parallel 1
+      --flash-attn on
       --sleep-idle-seconds 300
       --chat-template-kwargs '{"enable_thinking": false}'
+
