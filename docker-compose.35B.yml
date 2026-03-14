@@ -17,4 +17,4 @@ services:
       --flash-attn on
       --sleep-idle-seconds 300
       --chat-template-kwargs '{"enable_thinking": false}'
-
+      --webui-mcp-proxy

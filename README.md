@@ -69,7 +69,7 @@ I get about 58 tokens per second
 
 
 
-# Extras - opencode/openwebui
+# Extras - opencode, openwebui, MCP
 
 To include opencode, add the additional file:
 
@@ -82,6 +82,15 @@ To include openwebui/open-terminal, add the additional file:
 
 Then browse to http://localhost:3000/
 
+To include MCP servers, add the additional file:
+
+    docker compose -f docker-compose.9B.yml -f compose-extras.mcp.yml up
+
+Then in llama chat settings, add these MCP servers URLs. Yes, it's `localhost`. 
+
+* http://localhost:8096/server/time/mcp
+* http://localhost:8096/server/fetch/mcp
+* http://localhost:8096/server/ddg-search/mcp
 
 # Benchmarking with llama-bench
 
