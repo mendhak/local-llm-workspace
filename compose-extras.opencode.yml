@@ -5,14 +5,12 @@ services:
     container_name: opencode
     stdin_open: true
     tty: true
-    command: >
-      web
-      --hostname 0.0.0.0
-    ports:
-      - "0.0.0.0:4096:4096"
+    restart: unless-stopped  # Restart even if you quit opencode
+    environment:
+      - OPENCODE_EXPERIMENTAL_DISABLE_COPY_ON_SELECT=true  # Use shift+drag to highlight, ctrl+shift+c to copy, ctrl+shift+v to paste. 
     volumes:
       - ${PWD}/opencode.json:/root/.config/opencode/opencode.json
-      - ${PWD}:/home
-    working_dir: /home
+      - ${PWD}:/workspace
+    working_dir: /workspace
 
 
