@@ -6,6 +6,9 @@ From https://huggingface.co/unsloth/Qwen3.5-35B-A3B-GGUF/tree/main I downloaded 
 
 From https://huggingface.co/unsloth/Qwen3.5-27B-GGUF/tree/main I downloaded Qwen3.5-27B-IQ4_XS.gguf and Qwen3.5-27B-Q3_K_M.gguf
 
+From https://huggingface.co/Jackrong/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled-GGUF/tree/main I downloaded  Qwen3.5-27B.Q3_K_M.gguf and  Qwen3.5-27B.Q4_K_S.gguf
+
+
 From https://huggingface.co/unsloth/Qwen3.5-9B-GGUF/tree/main I downloaded Qwen3.5-9B-Q8_0.gguf
 
 # Build llama.cpp for RTX 5080 and Cuda 13.1
@@ -28,33 +31,41 @@ docker build -t local/llama.cpp:server-cuda-20260307 \
 In all cases, run the docker compose command, wait a bit, then browse to http://localhost:8080 
 
 
-## Qwen3 Coder
+## Qwen3 Coder, for coding
 
 ```
 docker compose -f docker-compose.coder-next.yml up llama-server
 ```
 I got about 28 tokens per second
 
-## Qwen3.5 35B
+## Qwen3.5 35B, for general chat
+
+This is a MOE - mixture of experts. It doesn't load the whole model into GPU, just parts as needed. It does work quite fast, good for general purpose chat. It can be used with the MCP for some web search capabilities.
 
 ```
-docker compose -f docker-compose.35B.yml up llama-server
+docker compose -f docker-compose.35B.yml -f compose-extras.mcp.yml up 
 ```
 
 I got about 65 tokens per second
 
-## Qwen3.5 27B IQ4
+## Qwen3.5 27B, for coding
+
+A few variants here, the IQ4 is the most recent, and the Q3 is a bit faster. Both are good for coding. 
+
+ IQ4 with opencode:
 
 ```
-docker compose -f docker-compose.27B.IQ4.yml up llama-server
+docker compose -f docker-compose.27B.IQ4.yml -f compose-extras.opencode.yml up 
+docker exec -it opencode opencode
 ```
 
 I got about 17 tokens per second
 
-## Qwen3.5 27B Q3_K_M
+Q3 with opencode:
 
 ```
-docker compose -f docker-compose.27B.Q3.yml up llama-server
+docker compose -f docker-compose.27B.Q3.yml -f compose-extras.opencode.yml up
+docker exec -it opencode opencode
 ```
 
 I got about 38 tokens per second

@@ -4,17 +4,17 @@ services:
       file: compose-common.yml
       service: llama-server
     command: >
-      -m /models/Qwen3.5-27B-Q3_K_M.gguf
+      -m /models/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled-GGUF.Q3_K_M.gguf
       --port 8080
       --host 0.0.0.0
-      -c 16384
-      -ngl 99
-      -t 8
+      --threads 8
+      --threads-batch 16
       --no-mmap
-      --temp 0.7 --top_p 0.8 --top_k 20 --min_p 0.0 --presence_penalty 1.5 --repeat_penalty 1.0
-      -ctk q8_0 -ctv q8_0 
-      -np 1
-      -fa on
-      --ubatch-size 8192 --batch-size 1024
+      --temp 0.6 --top_p 0.95 --top_k 20 --min_p 0.0 --presence_penalty 0.0 --repeat_penalty 1.0
+      --fit on
+      --fit-target 512
+      --fit-ctx 32768
+      --cache-type-k q4_0 --cache-type-v q4_0
+      --parallel 1
+      --flash-attn on
       --sleep-idle-seconds 300
-      --chat-template-kwargs '{"enable_thinking": false}'
