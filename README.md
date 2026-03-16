@@ -115,7 +115,7 @@ I get about 12 tokens per second
 
 # Opencode
 
-Opencode runs in the terminal, and we want to let it use the above llama-server, but operate on any project's files. 
+Opencode runs in the terminal, and I want to let it use the above llama-server, but operate on any one project's files. I've deliberately chosen this way so that the opencode interaction is assistive, and only operating on a single repo at a time. It also has no access to git, so that the act of reviewing code changes is part of the workflow. 
 
 The way I do it is to add a function in my `~/.bashrc` that starts the opencode docker container. It points at the config file included here, and passes the current directory as the workspace. 
 
@@ -128,7 +128,7 @@ docker run -it --rm --network container:llama-server -v "/home/mendhak/Projects/
 
 opencode() {
   export OPENCODE_DIR="/home/mendhak/Projects/local-llm-workspace"
-  export WORKSPACE_DIR="$(pwd)"
+  export PROJECT_DIR="$(pwd)"
   docker compose -f "${OPENCODE_DIR}/compose-extras.opencode.yml" up -d opencode
   docker attach opencode
 }

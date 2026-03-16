@@ -13,7 +13,7 @@ services:
     volumes:
       - ${OPENCODE_DIR}/opencode.json:/root/.config/opencode/opencode.json
       - opencode-data:/root/.local/
-      - ${WORKSPACE_DIR}:/workspace
+      - ${PROJECT_DIR}:/workspace
     working_dir: /workspace
 
 volumes:
