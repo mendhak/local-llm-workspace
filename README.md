@@ -117,15 +117,9 @@ I get about 12 tokens per second
 
 Opencode runs in the terminal, and I want to let it use the above llama-server, but operate on any one project's files. I've deliberately chosen this way so that the opencode interaction is assistive, and only operating on a single repo at a time. It also has no access to git, so that the act of reviewing code changes is part of the workflow. 
 
-The way I do it is to add a function in my `~/.bashrc` that starts the opencode docker container. It points at the config file included here, and passes the current directory as the workspace. 
+The way I do it is to add a function in my `~/.bashrc` that starts the opencode docker container from whichever project directory I'm in. It points at the opencode.json file included here, and passes the current project directory as the workspace. 
 
 ```
-opencode() {
-docker run -it --rm --network container:llama-server -v "/home/mendhak/Projects/llama-cpp-qwen-models/opencode.json:/root/.config/opencode/opencode.json" -v "${PWD}:/workspace" -w /workspace ghcr.io/anomalyco/opencode --agent plan
-}
-
-# or
-
 opencode() {
   export OPENCODE_DIR="/home/mendhak/Projects/local-llm-workspace"
   export PROJECT_DIR="$(pwd)"
@@ -133,6 +127,11 @@ opencode() {
   docker attach opencode
 }
 
+# or, without compose, just a throwaway session:
+
+opencode() {
+docker run -it --rm --network container:llama-server -v "/home/mendhak/Projects/llama-cpp-qwen-models/opencode.json:/root/.config/opencode/opencode.json" -v "${PWD}:/workspace" -w /workspace ghcr.io/anomalyco/opencode --agent plan
+}
 ```
 
 I can then just run `opencode` in any directory. It will start the container, connect to the llama server, and let me use opencode in that directory.
