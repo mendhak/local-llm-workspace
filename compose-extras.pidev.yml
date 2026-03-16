@@ -1,0 +1,22 @@
+services:
+
+  pidev:
+    image: local/pidev
+    build:
+      context: .
+      dockerfile_inline: |
+        FROM node:24-slim
+        RUN apt-get update && apt-get install -y curl
+        RUN npm install -g @mariozechner/pi-coding-agent
+        RUN pi install npm:pi-safeguard
+        CMD ["/bin/bash"]
+    container_name: pidev
+    stdin_open: true 
+    tty: true 
+    restart: no
+    volumes:
+      - ${PWD}:/workspace
+      - ${PWD}/pidev.json:/root/.pi/agent/models.json
+    working_dir: /workspace
+
+

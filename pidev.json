@@ -1,0 +1,32 @@
+{
+    "providers": {
+        "llama.local": {
+            "baseUrl": "http://llama-server:8080/v1",
+            "apiKey": "sk-xxxxxxxxx",
+            "api": "openai-completions",
+            "models": [
+                {
+                    "id": "Qwen3.5",
+                    "name": "Qwen3.5",
+                    "reasoning": true,
+                    "input": [
+                        "text",
+                        "image"
+                    ],
+                    "compat": {
+                        "supportsDeveloperRole": false,
+                        "thinkingFormat": "qwen-chat-template"
+                    },
+                    "contextWindow": 65536,
+                    "maxTokens": 32768,
+                    "cost": {
+                        "input": 0,
+                        "output": 0,
+                        "cacheRead": 0,
+                        "cacheWrite": 0
+                    }
+                }
+            ]
+        }
+    }
+}
