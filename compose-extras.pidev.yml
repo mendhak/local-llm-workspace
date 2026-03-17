@@ -20,8 +20,12 @@ services:
     tty: true 
     restart: no
     volumes:
-      - ${PWD}:/workspace
-      - ${PWD}/pidev.json:/root/.pi/agent/models.json
+      - ${PROJECT_DIR}:/workspace
+      - ${PIDEV_DIR}/pidev.json:/root/.pi/agent/models.json
+      - pidev-data:/root/.pi
     working_dir: /workspace
+
+volumes:
+  pidev-data:
 
 

@@ -136,3 +136,27 @@ docker run -it --rm --network container:llama-server -v "/home/mendhak/Projects/
 
 I can then just run `opencode` in any directory. It will start the container, connect to the llama server, and let me use opencode in that directory.
 
+# Pi.dev
+
+Pi.dev runs in the terminal, and I want to let it use the llama-server, but operate on any one project's files. I've deliberately chosen this way so that the pi.dev interaction is assistive, and only operating on a single repo at a time. It also has no access to git, so that the act of reviewing code changes is part of the workflow.
+
+The way I do it is to add a function in my `~/.bashrc` that starts the pi.dev docker container from whichever project directory I'm in. It points at the pidev.json file included here, and passes the current project directory as the workspace. Note that the container starts with bash, so we use `docker exec` to launch pi inside it.
+
+```
+pidev() {
+  export PIDEV_DIR="/home/mendhak/Projects/local-llm-workspace"
+  docker compose -f "${PIDEV_DIR}/compose-extras.pidev.yml" up -d pidev
+  docker exec -it pidev pi
+}
+
+# or, without compose, just a throwaway session:
+
+pidev() {
+docker run -it --rm --network container:llama-server -v "/home/mendhak/Projects/local-llm-workspace/pidev.json:/root/.pi/agent/models.json" -v "${PWD}:/workspace" -w /workspace local/pidev pi
+}
+```
+
+I can then just run `pidev` in any directory. It will start the container, connect to the llama server, and let me use pi.dev in that directory.
+
+Note: The container is pre-configured with the `pi-safeguard` and `pi-exa-mcp` extensions installed.
+
