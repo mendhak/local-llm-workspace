@@ -7,16 +7,19 @@ services:
       dockerfile_inline: |
         FROM ubuntu:24.04
         RUN apt-get update && apt-get install -y curl jq
-        
-        RUN curl -LsSf https://astral.sh/uv/install.sh | sh 
-        ENV PATH="/root/.local/bin:$PATH"
-
         RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash
-        
-        RUN apt-get install -y nodejs \
+        RUN apt-get install -y nodejs
+
+        USER ubuntu
+        ENV PATH="/home/ubuntu/.local/bin:$PATH" 
+        RUN npm config set prefix '~/.local/' \
             && npm install -g @mariozechner/pi-coding-agent \
             && pi install npm:pi-safeguard \
             && pi install npm:@benvargas/pi-exa-mcp
+        RUN mkdir -p /home/ubuntu/.pi/agent/
+        
+        RUN curl -LsSf https://astral.sh/uv/install.sh | sh 
+        
         CMD ["/bin/bash"]
     container_name: pidev
     stdin_open: true 
@@ -24,8 +27,8 @@ services:
     restart: no
     volumes:
       - ${PROJECT_DIR:-$PWD}:/workspace
-      - ${PIDEV_DIR:-$PWD}/pidev.json:/root/.pi/agent/models.json
-      - pidev-data:/root/.pi
+      - ${PIDEV_DIR:-$PWD}/pidev.json:/home/ubuntu/.pi/agent/models.json
+      - pidev-data:/home/ubuntu/.pi
     working_dir: /workspace
 
 volumes:
