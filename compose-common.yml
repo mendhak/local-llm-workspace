@@ -1,6 +1,6 @@
 services:
   llama-server:
-    image: local/llama.cpp:server-cuda-20260307
+    image: local/llama.cpp:server-cuda-20260330 
     container_name: llama-server
     deploy:
       resources:

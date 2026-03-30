@@ -35,7 +35,7 @@ On my system, the CUDA version was newer than the llama.cpp docker images had, s
 Clone https://github.com/ggml-org/llama.cpp, then:
 
 ```
-docker build -t local/llama.cpp:server-cuda-20260307 \
+docker build -t local/llama.cpp:server-cuda-20260330 \
 --build-arg CUDA_VERSION=13.1.0 \
   --build-arg CUDA_DOCKER_ARCH=120 \
   --target server \
