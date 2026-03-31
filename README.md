@@ -145,8 +145,13 @@ The way I do it is to add a function in my `~/.bashrc` that starts the pi.dev do
 ```
 pidev() {
   export PIDEV_DIR="/home/mendhak/Projects/local-llm-workspace"
+  export PROJECT_DIR="$(pwd)"
   docker compose -f "${PIDEV_DIR}/compose-extras.pidev.yml" up -d pidev
-  docker exec -it pidev pi
+  if [ $# -eq 0 ]; then
+    docker exec -it pidev pi
+  else
+    docker exec -it pidev pi -p "$*"
+  fi
 }
 
 # or, without compose, just a throwaway session:
@@ -156,7 +161,10 @@ docker run -it --rm --network container:llama-server -v "/home/mendhak/Projects/
 }
 ```
 
-I can then just run `pidev` in any directory. It will start the container, connect to the llama server, and let me use pi.dev in that directory.
+I can then just run `pidev` in any directory. It will start the container, connect to the llama server, and let me use pi.dev in that directory. You can also pass arguments to pi directly:
+
+* `pidev` - starts pi interactively
+* `pidev "your prompt"` - starts pi with your prompt passed via `-p`
 
 Note: The container is pre-configured with the `pi-safeguard` and `pi-exa-mcp` extensions installed.
 
