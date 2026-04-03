@@ -25,6 +25,23 @@
                         "cacheRead": 0,
                         "cacheWrite": 0
                     }
+                },
+                {
+                    "id": "Gemma4",
+                    "name": "Gemma4",
+                    "reasoning": true,
+                    "input": [
+                        "text",
+                        "image"
+                    ],
+                    "contextWindow": 65536,
+                    "maxTokens": 32768,
+                    "cost": {
+                        "input": 0,
+                        "output": 0,
+                        "cacheRead": 0,
+                        "cacheWrite": 0
+                    }
                 }
             ]
         }

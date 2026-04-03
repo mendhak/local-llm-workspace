@@ -35,7 +35,7 @@ On my system, the CUDA version was newer than the llama.cpp docker images had, s
 Clone https://github.com/ggml-org/llama.cpp, then:
 
 ```
-docker build -t local/llama.cpp:server-cuda-20260330 \
+docker build -t local/llama.cpp:server-cuda-20260402 \
 --build-arg CUDA_VERSION=13.1.0 \
   --build-arg CUDA_DOCKER_ARCH=120 \
   --target server \
@@ -168,3 +168,10 @@ I can then just run `pidev` in any directory. It will start the container, conne
 
 Note: The container is pre-configured with the `pi-safeguard` and `pi-exa-mcp` extensions installed.
 
+## TODO
+
+Try guardrail plugins for pi. These are:
+
+* https://github.com/dtmirizzi/pi-governance 
+* https://github.com/aliou/pi-guardrails 
+* https://github.com/mgabor3141/yapp  (pi-safeguard) 

@@ -1,0 +1,18 @@
+services:
+  llama-server:
+    extends:
+      file: compose-common.yml
+      service: llama-server
+    command: >
+      --model /models/gemma-4-26B-A4B-it-UD-Q6_K_XL.gguf
+      --port 8080
+      --host 0.0.0.0
+      --threads 8
+      --temp 1.0 --top_p 0.95 --top_k 64 
+      --fit on
+      --fit-target 512
+      --fit-ctx 65536
+      --cache-type-k q4_0 --cache-type-v q4_0
+      --parallel 1
+      --flash-attn on
+      --sleep-idle-seconds 300
