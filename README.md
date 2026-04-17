@@ -16,17 +16,16 @@ I also want to be able to run local models safely without compromising the secur
 These are various models I downloaded and tried and found useful. They can be interchanged in the docker compose files. 
 
 
-| Model | Source | 
-|-------|--------|
-| **Qwen 3.5 35B** - `Qwen3.5-35B-A3B-MXFP4_MOE.gguf` | [unsloth/Qwen3.5-35B-A3B-GGUF](https://huggingface.co/unsloth/Qwen3.5-35B-A3B-GGUF) |
-| **Qwen 3.5 35B** - `Qwen3.5-35B-A3B-UD-Q4_K_XL.gguf` | [unsloth/Qwen3.5-35B-A3B-GGUF](https://huggingface.co/unsloth/Qwen3.5-35B-A3B-GGUF) |
-| **Qwen 3.5 27B** - `Qwen3.5-27B.Q3_K_M.gguf` | [Jackrong/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled-GGUF](https://huggingface.co/Jackrong/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled-GGUF) |
-| **Qwen 3.5 27B** - `Qwen3.5-27B.Q4_K_S.gguf` | [Jackrong/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled-GGUF](https://huggingface.co/Jackrong/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled-GGUF) |
-| **Qwen 3.5 27B** - `Qwen3.5-27B-IQ4_XS.gguf` | [unsloth/Qwen3.5-27B-GGUF](https://huggingface.co/unsloth/Qwen3.5-27B-GGUF) |
-| **Qwen 3.5 9B** - `Qwen3.5-9B-Q8_0.gguf` | [unsloth/Qwen3.5-9B-GGUF](https://huggingface.co/unsloth/Qwen3.5-9B-GGUF) |
-| **Qwen 3 Coder Next** - `Qwen3-Coder-Next-MXFP4_MOE.gguf` | [unsloth/Qwen3-Coder-Next-GGUF](https://huggingface.co/unsloth/Qwen3-Coder-Next-GGUF) |
-| **Qwen 3 Coder Next** - `Qwen3-Coder-Next-UD-IQ4_XS.gguf` | [unsloth/Qwen3-Coder-Next-GGUF](https://huggingface.co/unsloth/Qwen3-Coder-Next-GGUF) |
-| **Qwen 3.5 4B** - `Qwen3.5-4B-Q4_K_M.gguf` | [unsloth/Qwen3.5-4B-GGUF](https://huggingface.co/unsloth/Qwen3.5-4B-GGUF) |
+| Model | Source | Used In |
+|-------|--------|---------|
+| **Qwen3.6 35B** - `Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf` | [unsloth/Qwen3.6-35B-A3B-GGUF](https://huggingface.co/unsloth/Qwen3.6-35B-A3B-GGUF) | `chat/qwen35B.yml` |
+| **Qwen3.6 35B** - `Qwen3.6-35B-A3B-UD-Q8_K_XL.gguf` | [unsloth/Qwen3.6-35B-A3B-GGUF](https://huggingface.co/unsloth/Qwen3.6-35B-A3B-GGUF) | `coding/qwen35B.yml` |
+| **Qwen3.5 27B** - `Qwen3.5-27B-IQ4_XS.gguf` | [unsloth/Qwen3.5-27B-GGUF](https://huggingface.co/unsloth/Qwen3.5-27B-GGUF) | `coding/qwen27B.IQ4.yml` |
+| **Qwen3.5 27B** - `Qwen3.5-27B-Q3_K_M.gguf` | [Jackrong/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled-GGUF](https://huggingface.co/Jackrong/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled-GGUF) | `coding/qwen27B.IQ3.yml` |
+| **Qwen3 Coder Next** - `Qwen3-Coder-Next-UD-Q4_K_M.gguf` | [unsloth/Qwen3-Coder-Next-GGUF](https://huggingface.co/unsloth/Qwen3-Coder-Next-GGUF) | `coding/qwen.codernext.yml` |
+| **Qwen3.5 9B** - `Qwen3.5-9B-Q8_0.gguf` | [unsloth/Qwen3.5-9B-GGUF](https://huggingface.co/unsloth/Qwen3.5-9B-GGUF) | `lightweight/qwen9B.yml` |
+| **Qwen3.5 4B** - `Qwen3.5-4B-Q4_K_M.gguf` | [unsloth/Qwen3.5-4B-GGUF](https://huggingface.co/unsloth/Qwen3.5-4B-GGUF) | `lightweight/qwen4B.yml` |
+| **Gemma 4 26B** - `gemma-4-26B-A4B-it-UD-IQ4_NL.gguf` | [google/gemma-4-it](https://huggingface.co/google/gemma-4-it) | `chat/gemma4.yml` |
 
 # Build llama.cpp for RTX 5080 and Cuda 13.1
 
@@ -49,12 +48,12 @@ In all cases, run the docker compose command, wait a bit, then browse to http://
 
 
 
-## Qwen3.5 35B, for general chat
+## Qwen3.6 35B, for general chat
 
 This is a MOE - mixture of experts. It doesn't load the whole model into GPU, just parts as needed. It does work quite fast, good for general purpose chat. It can be used with the MCP for some web search capabilities.
 
 ```
-docker compose -f chat/docker-compose.35B.yml -f extras/compose-extras.mcp.yml up 
+docker compose -f chat/qwen35B.yml -f extras/mcp.yml up 
 ```
 
 I got about 65 tokens per second. 
@@ -72,15 +71,15 @@ A few variants here, the IQ4 is the most recent, and the Q3 is a bit faster. Bot
  IQ4 with opencode:
 
 ```
-docker compose -f coding/docker-compose.27B.IQ4.yml 
+docker compose -f coding/qwen27B.IQ4.yml up
 ```
 
 I got about 17 tokens per second
 
-Q3 with opencode:
+IQ3 with opencode:
 
 ```
-docker compose -f coding/docker-compose.27B.Q3.yml up
+docker compose -f coding/qwen27B.IQ3.yml up
 ```
 
 I got about 38 tokens per second
@@ -89,14 +88,14 @@ I got about 38 tokens per second
 ## Qwen3 Coder, for coding
 
 ```
-docker compose -f coding/docker-compose.coder-next.yml up 
+docker compose -f coding/qwen.codernext.yml up 
 ```
 I got about 28 tokens per second
 
 ## Qwen3.5 9B Q8_0
 
 ```
-docker compose -f lightweight/docker-compose.9B.yml up llama-server
+docker compose -f lightweight/qwen9B.yml up llama-server
 ```
 
 I get about 58 tokens per second
@@ -106,7 +105,7 @@ I get about 58 tokens per second
 A small, fast model that runs on CPU without requiring GPU. Good for simple tasks or systems without CUDA.
 
 ```
-docker compose -f lightweight/docker-compose.4BCPU.yml up
+docker compose -f lightweight/qwen4B.yml up
 ```
 
 I get about 12 tokens per second
@@ -123,7 +122,7 @@ The way I do it is to add a function in my `~/.bashrc` that starts the opencode 
 opencode() {
   export OPENCODE_DIR="/home/mendhak/Projects/local-llm-workspace"
   export PROJECT_DIR="$(pwd)"
-  docker compose -f "${OPENCODE_DIR}/extras/compose-extras.opencode.yml" up -d opencode
+  docker compose -f "${OPENCODE_DIR}/extras/opencode.yml" up -d opencode
   docker attach opencode
 }
 
@@ -146,7 +145,7 @@ The way I do it is to add a function in my `~/.bashrc` that starts the pi.dev do
 pidev() {
   export PIDEV_DIR="/home/mendhak/Projects/local-llm-workspace"
   export PROJECT_DIR="$(pwd)"
-  docker compose -f "${PIDEV_DIR}/extras/compose-extras.pidev.yml" up -d pidev
+  docker compose -f "${PIDEV_DIR}/extras/pidev.yml" up -d pidev
   if [ $# -eq 0 ]; then
     docker exec -it pidev pi
   else

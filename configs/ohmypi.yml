@@ -1,6 +1,6 @@
 providers:
   llama.cpp:
-    baseUrl: http://llama-server:8080
+    baseUrl: http://localhost:8080
     api: openai-responses
     auth: none
     discovery:

@@ -6,7 +6,7 @@
       "npm": "@ai-sdk/openai-compatible",
       "name": "llama-server",
       "options": {
-        "baseURL": "http://llama-server:8080/v1"
+        "baseURL": "http://localhost:8080/v1"
       },
       "models": {
         "qwen": {

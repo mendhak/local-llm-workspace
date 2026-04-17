@@ -1,7 +1,7 @@
 {
     "providers": {
         "llama.local": {
-            "baseUrl": "http://llama-server:8080/v1",
+            "baseUrl": "http://localhost:8080/v1",
             "apiKey": "sk-xxxxxxxxx",
             "api": "openai-completions",
             "models": [

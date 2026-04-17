@@ -30,6 +30,7 @@ services:
       - ${PIDEV_DIR:-$PWD}/configs/pidev.json:/home/ubuntu/.pi/agent/models.json
       - pidev-data:/home/ubuntu/.pi
     working_dir: /workspace
+    network_mode: host
 
 volumes:
   pidev-data:
