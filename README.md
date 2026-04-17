@@ -97,32 +97,6 @@ A small, fast model that runs on CPU without requiring GPU. Good for simple task
 docker compose -f lightweight/qwen4B.yml up
 ```
 
-
-
-
-# Opencode
-
-Opencode runs in the terminal, and I want to let it use the above llama-server, but operate on any one project's files. I've deliberately chosen this way so that the opencode interaction is assistive, and only operating on a single repo at a time. It also has no access to git, so that the act of reviewing code changes is part of the workflow. 
-
-The way I do it is to add a function in my `~/.bashrc` that starts the opencode docker container from whichever project directory I'm in. It points at the opencode.json file included here, and passes the current project directory as the workspace. 
-
-```
-opencode() {
-  export OPENCODE_DIR="/home/mendhak/Projects/local-llm-workspace"
-  export PROJECT_DIR="$(pwd)"
-  docker compose -f "${OPENCODE_DIR}/extras/opencode.yml" up -d opencode
-  docker attach opencode
-}
-
-# or, without compose, just a throwaway session:
-
-opencode() {
-docker run -it --rm --network container:llama-server -v "/home/mendhak/Projects/llama-cpp-qwen-models/configs/opencode.json:/root/.config/opencode/opencode.json" -v "${PWD}:/workspace" -w /workspace ghcr.io/anomalyco/opencode --agent plan
-}
-```
-
-I can then just run `opencode` in any directory. It will start the container, connect to the llama server, and let me use opencode in that directory.
-
 # Pi.dev
 
 Pi.dev runs in the terminal, and I want to let it use the llama-server, but operate on any one project's files. I've deliberately chosen this way so that the pi.dev interaction is assistive, and only operating on a single repo at a time. It also has no access to git, so that the act of reviewing code changes is part of the workflow.
@@ -154,6 +128,32 @@ I can then just run `pidev` in any directory. It will start the container, conne
 * `pidev "your prompt"` - starts pi with your prompt passed via `-p`
 
 Note: The container is pre-configured with the `pi-safeguard` and `pi-exa-mcp` extensions installed.
+
+
+# Opencode
+
+Opencode runs in the terminal, and I want to let it use the above llama-server, but operate on any one project's files. I've deliberately chosen this way so that the opencode interaction is assistive, and only operating on a single repo at a time. It also has no access to git, so that the act of reviewing code changes is part of the workflow. 
+
+The way I do it is to add a function in my `~/.bashrc` that starts the opencode docker container from whichever project directory I'm in. It points at the opencode.json file included here, and passes the current project directory as the workspace. 
+
+```
+opencode() {
+  export OPENCODE_DIR="/home/mendhak/Projects/local-llm-workspace"
+  export PROJECT_DIR="$(pwd)"
+  docker compose -f "${OPENCODE_DIR}/extras/opencode.yml" up -d opencode
+  docker attach opencode
+}
+
+# or, without compose, just a throwaway session:
+
+opencode() {
+docker run -it --rm --network container:llama-server -v "/home/mendhak/Projects/llama-cpp-qwen-models/configs/opencode.json:/root/.config/opencode/opencode.json" -v "${PWD}:/workspace" -w /workspace ghcr.io/anomalyco/opencode --agent plan
+}
+```
+
+I can then just run `opencode` in any directory. It will start the container, connect to the llama server, and let me use opencode in that directory.
+
+
 
 ## TODO
 
