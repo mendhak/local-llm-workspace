@@ -18,7 +18,7 @@ services:
     restart: no
     volumes:
       - ${PWD}:/workspace
-      - ${PWD}/ohmypi.yml:/root/.omp/agent/models.yml
+      - ../configs/ohmypi.yml:/root/.omp/agent/models.yml
     working_dir: /workspace
 
 

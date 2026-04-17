@@ -54,7 +54,7 @@ In all cases, run the docker compose command, wait a bit, then browse to http://
 This is a MOE - mixture of experts. It doesn't load the whole model into GPU, just parts as needed. It does work quite fast, good for general purpose chat. It can be used with the MCP for some web search capabilities.
 
 ```
-docker compose -f docker-compose.35B.yml -f compose-extras.mcp.yml up 
+docker compose -f chat/docker-compose.35B.yml -f extras/compose-extras.mcp.yml up 
 ```
 
 I got about 65 tokens per second. 
@@ -72,7 +72,7 @@ A few variants here, the IQ4 is the most recent, and the Q3 is a bit faster. Bot
  IQ4 with opencode:
 
 ```
-docker compose -f docker-compose.27B.IQ4.yml 
+docker compose -f coding/docker-compose.27B.IQ4.yml 
 ```
 
 I got about 17 tokens per second
@@ -80,7 +80,7 @@ I got about 17 tokens per second
 Q3 with opencode:
 
 ```
-docker compose -f docker-compose.27B.Q3.yml up
+docker compose -f coding/docker-compose.27B.Q3.yml up
 ```
 
 I got about 38 tokens per second
@@ -89,14 +89,14 @@ I got about 38 tokens per second
 ## Qwen3 Coder, for coding
 
 ```
-docker compose -f docker-compose.coder-next.yml up 
+docker compose -f coding/docker-compose.coder-next.yml up 
 ```
 I got about 28 tokens per second
 
 ## Qwen3.5 9B Q8_0
 
 ```
-docker compose -f docker-compose.9B.yml up llama-server
+docker compose -f lightweight/docker-compose.9B.yml up llama-server
 ```
 
 I get about 58 tokens per second
@@ -106,7 +106,7 @@ I get about 58 tokens per second
 A small, fast model that runs on CPU without requiring GPU. Good for simple tasks or systems without CUDA.
 
 ```
-docker compose -f docker-compose.4BCPU.yml up
+docker compose -f lightweight/docker-compose.4BCPU.yml up
 ```
 
 I get about 12 tokens per second
@@ -123,14 +123,14 @@ The way I do it is to add a function in my `~/.bashrc` that starts the opencode 
 opencode() {
   export OPENCODE_DIR="/home/mendhak/Projects/local-llm-workspace"
   export PROJECT_DIR="$(pwd)"
-  docker compose -f "${OPENCODE_DIR}/compose-extras.opencode.yml" up -d opencode
+  docker compose -f "${OPENCODE_DIR}/extras/compose-extras.opencode.yml" up -d opencode
   docker attach opencode
 }
 
 # or, without compose, just a throwaway session:
 
 opencode() {
-docker run -it --rm --network container:llama-server -v "/home/mendhak/Projects/llama-cpp-qwen-models/opencode.json:/root/.config/opencode/opencode.json" -v "${PWD}:/workspace" -w /workspace ghcr.io/anomalyco/opencode --agent plan
+docker run -it --rm --network container:llama-server -v "/home/mendhak/Projects/llama-cpp-qwen-models/configs/opencode.json:/root/.config/opencode/opencode.json" -v "${PWD}:/workspace" -w /workspace ghcr.io/anomalyco/opencode --agent plan
 }
 ```
 
@@ -146,7 +146,7 @@ The way I do it is to add a function in my `~/.bashrc` that starts the pi.dev do
 pidev() {
   export PIDEV_DIR="/home/mendhak/Projects/local-llm-workspace"
   export PROJECT_DIR="$(pwd)"
-  docker compose -f "${PIDEV_DIR}/compose-extras.pidev.yml" up -d pidev
+  docker compose -f "${PIDEV_DIR}/extras/compose-extras.pidev.yml" up -d pidev
   if [ $# -eq 0 ]; then
     docker exec -it pidev pi
   else
@@ -157,7 +157,7 @@ pidev() {
 # or, without compose, just a throwaway session:
 
 pidev() {
-docker run -it --rm --network container:llama-server -v "/home/mendhak/Projects/local-llm-workspace/pidev.json:/root/.pi/agent/models.json" -v "${PWD}:/workspace" -w /workspace local/pidev pi
+docker run -it --rm --network container:llama-server -v "/home/mendhak/Projects/local-llm-workspace/configs/pidev.json:/root/.pi/agent/models.json" -v "${PWD}:/workspace" -w /workspace local/pidev pi
 }
 ```
 

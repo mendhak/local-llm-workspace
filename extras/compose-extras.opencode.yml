@@ -11,7 +11,7 @@ services:
     environment:
       - OPENCODE_EXPERIMENTAL_DISABLE_COPY_ON_SELECT=true  # Use shift+drag to highlight, ctrl+shift+c to copy, ctrl+shift+v to paste. 
     volumes:
-      - ${OPENCODE_DIR}/opencode.json:/root/.config/opencode/opencode.json
+      - ${OPENCODE_DIR}/configs/opencode.json:/root/.config/opencode/opencode.json
       - opencode-data:/root/.local/
       - ${PROJECT_DIR}:/workspace
     working_dir: /workspace

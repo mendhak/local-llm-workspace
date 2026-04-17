@@ -4,7 +4,7 @@ services:
       file: compose-common.yml
       service: llama-server
     volumes:
-      - ${PWD}/google-gemma-4-31B-it-interleaved.jinja:/model-config/google-gemma-4-31B-it-interleaved.jinja:ro
+      - ${PWD}/configs/google-gemma-4-31B-it-interleaved.jinja:/model-config/google-gemma-4-31B-it-interleaved.jinja:ro
     # Best are /models/gemma-4-26B-A4B-it-UD-IQ4_NL.gguf, gemma-4-31B-it-Q4_K_M.gguf
     command: >
       --model /models/gemma-4-26B-A4B-it-UD-IQ4_NL.gguf

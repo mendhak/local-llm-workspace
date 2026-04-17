@@ -1,0 +1,21 @@
+services:
+  llama-server:
+    extends:
+      file: ../compose-common.yml
+      service: llama-server
+    command: >
+      --model /models/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf
+      --port 8080
+      --host 0.0.0.0
+      --threads 8
+      --temp 0.7 --top_p 0.80 --top_k 20 --min_p 0.0 --presence_penalty 1.5 --repeat_penalty 1.0
+      --fit on
+      --fit-target 512
+      --fit-ctx 65536
+      --batch-size 2048 --ubatch-size 1024
+      --cache-type-k q8_0 --cache-type-v q8_0
+      --parallel 1
+      --flash-attn on
+      --sleep-idle-seconds 300
+      --chat-template-kwargs '{"preserve_thinking": false, "enable_thinking": false}'
+      --webui-mcp-proxy

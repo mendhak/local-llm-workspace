@@ -27,7 +27,7 @@ services:
     restart: no
     volumes:
       - ${PROJECT_DIR:-$PWD}:/workspace
-      - ${PIDEV_DIR:-$PWD}/pidev.json:/home/ubuntu/.pi/agent/models.json
+      - ${PIDEV_DIR:-$PWD}/configs/pidev.json:/home/ubuntu/.pi/agent/models.json
       - pidev-data:/home/ubuntu/.pi
     working_dir: /workspace
 
