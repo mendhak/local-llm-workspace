@@ -1,7 +1,7 @@
 services:
   llama-server:
     extends:
-      file: compose-common.yml
+      file: ../compose-common.yml
       service: llama-server
     environment:
       - GGML_CUDA_GRAPH_OPT=1

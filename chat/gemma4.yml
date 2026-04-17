@@ -1,7 +1,7 @@
 services:
   llama-server:
     extends:
-      file: compose-common.yml
+      file: ../compose-common.yml
       service: llama-server
     volumes:
       - ${PWD}/configs/google-gemma-4-31B-it-interleaved.jinja:/model-config/google-gemma-4-31B-it-interleaved.jinja:ro
