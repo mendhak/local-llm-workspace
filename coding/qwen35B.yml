@@ -13,9 +13,10 @@ services:
       --fit on
       --fit-target 512
       --fit-ctx 262144
-      --cache-type-k q4_0 --cache-type-v q4_0
+      --cache-type-k q8_0 --cache-type-v q8_0
       --parallel 1
       --flash-attn on
+      --no-mmap
       --sleep-idle-seconds 300
       --chat-template-kwargs '{"preserve_thinking": true}' --reasoning-budget -1
       --webui-mcp-proxy

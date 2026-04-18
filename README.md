@@ -154,6 +154,28 @@ docker run -it --rm --network container:llama-server -v "/home/mendhak/Projects/
 I can then just run `opencode` in any directory. It will start the container, connect to the llama server, and let me use opencode in that directory.
 
 
+# Notes on benchmarking with llama-bench
+
+This is a good way of running multiple benchmarks in one go, it outputs the processing speed and token generation speed.
+
+Build this in llama.cpp project directory:
+
+```
+docker build -t local/llama.cpp:full-20260418 \
+--build-arg CUDA_VERSION=13.1.0 \
+  --build-arg CUDA_DOCKER_ARCH=120 \
+  --target full \
+  -f .devops/cuda.Dockerfile .
+```
+
+Then run the benchmark. Examples: 
+
+```
+docker run --rm  --gpus all -v /mnt/Extra/Models:/models --entrypoint ./llama-bench local/llama.cpp:full-20260418 -m /models/Qwen3.5-9B-Q8_0.gguf -ngl 99 -b 4096,8192,16384 -ub 512,1024,2048,4096,8192 -t 8 -fa 1 -ctk q8_0,f16,bf16,q4_0 -ctv q8_0,f16,bf16,q4_0 -p 512 -n 128 --mmap 1,0 
+
+docker run --rm  --gpus all -v /mnt/Extra/Models:/models --entrypoint ./llama-bench local/llama.cpp:full-20260418 -m /models/Qwen3.6-35B-A3B-UD-Q8_K_XL.gguf --fit-target 512 --fit-ctx 65536,131072,262144
+```
+
 
 ## TODO
 
