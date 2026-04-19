@@ -1,6 +1,6 @@
 services:
   llama-server:
-    image: local/llama.cpp:server-cuda-20260409
+    image: local/llama.cpp:server-cuda-20260419
     deploy:
       resources:
         reservations:

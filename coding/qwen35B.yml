@@ -14,6 +14,7 @@ services:
       --fit-target 512
       --fit-ctx 262144
       --cache-type-k q8_0 --cache-type-v q8_0
+      --spec-type ngram-mod --spec-ngram-size-n 24 --draft-min 48 --draft-max 64
       --parallel 1
       --flash-attn on
       --no-mmap
