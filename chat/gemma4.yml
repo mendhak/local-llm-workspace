@@ -5,7 +5,7 @@ services:
       service: llama-server
     volumes:
       - ${PWD}/configs/google-gemma-4-31B-it-interleaved.jinja:/model-config/google-gemma-4-31B-it-interleaved.jinja:ro
-    # Best are /models/gemma-4-26B-A4B-it-UD-IQ4_NL.gguf, gemma-4-31B-it-Q4_K_M.gguf
+    # Best are /models/gemma-4-26B-A4B-it-UD-IQ4_NL.gguf, gemma-4-26B-A4B-it-MXFP4_MOE.gguf, gemma-4-31B-it-Q4_K_M.gguf
     command: >
       --model /models/gemma-4-26B-A4B-it-UD-IQ4_NL.gguf
       --port 8080
@@ -16,6 +16,7 @@ services:
       --fit-target 512
       --fit-ctx 65536
       --cache-type-k q5_0 --cache-type-v q4_0 --cache-ram 2048 -ctxcp 2 --kv-unified
+      --spec-type ngram-mod --spec-ngram-size-n 12 --draft-min 48 --draft-max 64
       --batch-size 1024 --ubatch-size 512 --repeat-penalty 1.0 --jinja --chat-template-file /model-config/google-gemma-4-31B-it-interleaved.jinja --perf
       --parallel 1
       --flash-attn on
