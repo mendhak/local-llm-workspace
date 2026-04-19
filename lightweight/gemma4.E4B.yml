@@ -1,0 +1,20 @@
+services:
+  llama-server:
+    extends:
+      file: ../compose-common.yml
+      service: llama-server
+    volumes:
+      - /mnt/Extra/Models:/models
+    command: >
+      --model /models/gemma-4-E4B-it-UD-Q8_K_XL.gguf
+      --port 8080
+      --host 0.0.0.0
+      --ctx-size 32768
+      --threads 8
+      --mmap
+      --temp 1.0 --top_p 0.95 --top_k 64 --repeat_penalty 1.0
+      --parallel 1
+      --flash-attn on
+      --ubatch-size 4096 --batch-size 4096
+      --sleep-idle-seconds 300
+      --jinja
