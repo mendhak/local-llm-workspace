@@ -13,7 +13,7 @@ services:
         USER ubuntu
         ENV PATH="/home/ubuntu/.local/bin:$PATH" 
         RUN npm config set prefix '~/.local/' \
-            && npm install -g @mariozechner/pi-coding-agent \
+            && npm install -g @earendil-works/pi-coding-agent \
             && pi install npm:pi-safeguard \
             && pi install npm:@benvargas/pi-exa-mcp
         RUN mkdir -p /home/ubuntu/.pi/agent/

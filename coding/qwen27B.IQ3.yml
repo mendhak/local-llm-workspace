@@ -4,7 +4,7 @@ services:
       file: ../compose-common.yml
       service: llama-server
     command: >
-      -m /models/Qwen3.5-27B-Q3_K_M.gguf
+      -m /models/Qwen3.6-27B-Q3_K_M.gguf
       --port 8080
       --host 0.0.0.0
       --threads 8
