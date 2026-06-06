@@ -167,7 +167,7 @@ This is a good way of running multiple benchmarks in one go, it outputs the proc
 Build this in llama.cpp project directory:
 
 ```
-docker build -t local/llama.cpp:full-20260418 \
+docker build -t local/llama.cpp:full-20260528 \
 --build-arg CUDA_VERSION=13.1.0 \
   --build-arg CUDA_DOCKER_ARCH=120 \
   --target full \
@@ -177,9 +177,9 @@ docker build -t local/llama.cpp:full-20260418 \
 Then run the benchmark. Examples: 
 
 ```
-docker run --rm  --gpus all -v /mnt/Extra/Models:/models --entrypoint ./llama-bench local/llama.cpp:full-20260418 -m /models/Qwen3.5-9B-Q8_0.gguf -ngl 99 -b 4096,8192,16384 -ub 512,1024,2048,4096,8192 -t 8 -fa 1 -ctk q8_0,f16,bf16,q4_0 -ctv q8_0,f16,bf16,q4_0 -p 512 -n 128 --mmap 1,0 
+docker run --rm  --gpus all -v /mnt/Extra/Models:/models --entrypoint ./llama-bench local/llama.cpp:full-20260528 -m /models/Qwen3.5-9B-Q8_0.gguf -ngl 99 -b 4096,8192,16384 -ub 512,1024,2048,4096,8192 -t 8 -fa 1 -ctk q8_0,f16,bf16,q4_0 -ctv q8_0,f16,bf16,q4_0 -p 512 -n 128 --mmap 1,0 
 
-docker run --rm  --gpus all -v /mnt/Extra/Models:/models --entrypoint ./llama-bench local/llama.cpp:full-20260418 -m /models/Qwen3.6-35B-A3B-UD-Q8_K_XL.gguf --fit-target 512 --fit-ctx 65536,131072,262144
+docker run --rm  --gpus all -v /mnt/Extra/Models:/models --entrypoint ./llama-bench local/llama.cpp:full-20260528 -m /models/Qwen3.6-35B-A3B-UD-Q8_K_XL.gguf --fit-target 512 --fit-ctx 65536,131072,262144
 ```
 
 
