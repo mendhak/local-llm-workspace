@@ -18,20 +18,20 @@ These are various models I downloaded and tried and found useful. They can be in
 ## chat
 
 - **Qwen3.6 35B** - [unsloth/Qwen3.5-35B-A3B-GGUF](https://huggingface.co/unsloth/Qwen3.5-35B-A3B-GGUF/tree/main) `Qwen3.6-35B-A3B-MXFP4_MOE.gguf`, `Qwen3.6-35B-A3B-UD-Q8_K_XL.gguf` 
-- **Gemma 4 26B** - [unsloth/gemma-4-26B-A4B-it-GGUF](https://huggingface.co/unsloth/gemma-4-26B-A4B-it-GGUF) - `gemma-4-26B-A4B-it-UD-IQ4_NL.gguf`, `gemma-4-26B-A4B-it-MXFP4_MOE.gguf`
-- **Gemma 4 31B** - [unsloth/gemma-4-31B-it-GGUF](https://huggingface.co/unsloth/gemma-4-31B-it-GGUF/tree/main) - `gemma-4-31B-it-Q4_K_M.gguf`
+- **Gemma 4 26B A4B** - [unsloth/gemma-4-26B-A4B-it-qat-GGUF](https://huggingface.co/unsloth/gemma-4-26B-A4B-it-qat-GGUF) - `gemma-4-26B-A4B-it-qat-UD-Q4_K_XL.gguf` with [`gemma-4-26b-A4B-it-assistant-Q4_0-q4emb.gguf`](https://huggingface.co/RachidAR/gemma-4-26B-A4B-it-qat-assistant-q4_0-gguf/tree/main). 
 
 ## coding
 
 - **Qwen3.6 35B** - [unsloth/Qwen3.6-35B-A3B-GGUF](https://huggingface.co/unsloth/Qwen3.6-35B-A3B-GGUF) `Qwen3.6-35B-A3B-MXFP4_MOE.gguf`, `Qwen3.6-35B-A3B-UD-Q8_K_XL.gguf` 
 - **Qwen3.5 27B** - [unsloth/Qwen3.5-27B-GGUF](https://huggingface.co/unsloth/Qwen3.5-27B-GGUF) - `Qwen3.5-27B-IQ4_XS.gguf`, `Qwen3.5-27B-Q3_K_M.gguf`
+- **Gemma 4 26B A4B** - [unsloth/gemma-4-26B-A4B-it-qat-GGUF](https://huggingface.co/unsloth/gemma-4-26B-A4B-it-qat-GGUF) - `gemma-4-26B-A4B-it-qat-UD-Q4_K_XL.gguf` with [`gemma-4-26b-A4B-it-assistant-Q4_0-q4emb.gguf`](https://huggingface.co/RachidAR/gemma-4-26B-A4B-it-qat-assistant-q4_0-gguf/tree/main). 
 - **Qwen3 Coder Next** - [unsloth/Qwen3-Coder-Next-GGUF](https://huggingface.co/unsloth/Qwen3-Coder-Next-GGUF) - `Qwen3-Coder-Next-MXFP4_MOE.gguf`
 
 ## lightweight
 
 - **Qwen3.5 9B** - [unsloth/Qwen3.5-9B-GGUF](https://huggingface.co/unsloth/Qwen3.5-9B-GGUF) - `Qwen3.5-9B-Q8_0.gguf`
 - **Qwen3.5 4B** - [unsloth/Qwen3.5-4B-GGUF](https://huggingface.co/unsloth/Qwen3.5-4B-GGUF) - `Qwen3.5-4B-Q4_K_M.gguf`
-- **Gemma 4 E4B* - [unsloth/gemma-4-E4B-it-GGUF](https://huggingface.co/unsloth/gemma-4-E4B-it-GGUF) - `gemma-4-E4B-it-UD-Q8_K_XL.gguf`
+- **Gemma 4 E4B** - [unsloth/gemma-4-E4B-it-GGUF](https://huggingface.co/unsloth/gemma-4-E4B-it-GGUF) - `gemma-4-E4B-it-UD-Q8_K_XL.gguf`
 
 # Build llama.cpp for RTX 5080 and Cuda 13.1
 
@@ -40,7 +40,7 @@ On my system, the CUDA version was newer than the llama.cpp docker images had, s
 Clone https://github.com/ggml-org/llama.cpp, then:
 
 ```
-docker build -t local/llama.cpp:server-cuda-20260419 \
+docker build -t local/llama.cpp:server-cuda-20260608 \
 --build-arg CUDA_VERSION=13.1.0 \
   --build-arg CUDA_DOCKER_ARCH=120 \
   --target server \

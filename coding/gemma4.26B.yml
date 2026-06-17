@@ -15,9 +15,11 @@ services:
       --fit on
       --fit-target 512
       --fit-ctx 131072
+      --spec-draft-model /models/gemma-4-26b-A4B-it-assistant-Q4_0-q4emb.rachidar.gguf --spec-type draft-mtp --spec-draft-n-max 2
       --cache-type-k q4_0 --cache-type-v q4_0 
       --batch-size 512 --ubatch-size 512 
       --parallel 1
       --flash-attn on
       --sleep-idle-seconds 300
+      --perf
       --chat-template-kwargs '{"enable_thinking":true}'
