@@ -15,7 +15,8 @@ services:
         RUN npm config set prefix '~/.local/' \
             && npm install -g @earendil-works/pi-coding-agent \
             && pi install npm:pi-safeguard \
-            && pi install npm:@benvargas/pi-exa-mcp
+            && pi install npm:@benvargas/pi-exa-mcp \
+            && pi install npm:pi-llama-cpp
         RUN mkdir -p /home/ubuntu/.pi/agent/
         
         RUN curl -LsSf https://astral.sh/uv/install.sh | sh 
@@ -27,7 +28,6 @@ services:
     restart: no
     volumes:
       - ${PROJECT_DIR:-$PWD}:/workspace
-      - ${PIDEV_DIR:-$PWD}/configs/pidev.json:/home/ubuntu/.pi/agent/models.json
       - pidev-data:/home/ubuntu/.pi
     working_dir: /workspace
     network_mode: host
