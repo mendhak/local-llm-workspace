@@ -1,4 +1,4 @@
-This project provides a local, self contained environment for running LLMs with chat or coding capabilities. It uses llama-server and opencode in docker containers, and provides some docker compose files to run various models.
+This project provides a local, self-contained environment for running LLMs with chat or coding capabilities. It uses llama-server and pi.dev in docker containers, and provides docker compose files to run various models.
 
 Some aspects of the project are specific to my hardware, but the general approach should be transferable to other systems.  
 
@@ -6,7 +6,7 @@ Some aspects of the project are specific to my hardware, but the general approac
 
 I want to run LLMs locally for privacy, cost, and dependency reasons. While it won't achieve the same performance as cloud hosted models, it can be good enough for simple tasks like chat and coding. 
 
-I also want to be able to run local models safely without compromising the security of my host system. This is achieved by running llama and opencode in isolated docker containers, and sharing only necessary files and ports. 
+I also want to be able to run local models safely without compromising the security of my host system. This is achieved by running llama and pi.dev in isolated docker containers, and sharing only necessary files and ports. 
 
 
 
@@ -107,7 +107,7 @@ docker compose -f lightweight/qwen4B.yml up
 
 Pi.dev runs in the terminal, and I want to let it use the llama-server, but operate on any one project's files. I've deliberately chosen this way so that the pi.dev interaction is assistive, and only operating on a single repo at a time. It also has no access to git, so that the act of reviewing code changes is part of the workflow.
 
-The way I do it is to add a function in my `~/.bashrc` that starts the pi.dev docker container from whichever project directory I'm in. It points at the pidev.json file included here, and passes the current project directory as the workspace. Note that the container starts with bash, so we use `docker exec` to launch pi inside it.
+The way I do it is to add a function in my `~/.bashrc` that starts the pi.dev docker container from whichever project directory I'm in. It passes the current project directory as the workspace. Note that the container starts with bash, so we use `docker exec` to launch pi inside it.
 
 ```
 pidev() {
@@ -124,7 +124,7 @@ pidev() {
 # or, without compose, just a throwaway session:
 
 pidev() {
-docker run -it --rm --network container:llama-server -v "/home/mendhak/Projects/local-llm-workspace/configs/pidev.json:/root/.pi/agent/models.json" -v "${PWD}:/workspace" -w /workspace local/pidev pi
+docker run -it --rm --network container:llama-server -v "${PWD}:/workspace" -w /workspace local/pidev pi
 }
 ```
 
@@ -133,31 +133,13 @@ I can then just run `pidev` in any directory. It will start the container, conne
 * `pidev` - starts pi interactively
 * `pidev "your prompt"` - starts pi with your prompt passed via `-p`
 
-Note: The container is pre-configured with the `pi-safeguard` and `pi-exa-mcp` extensions installed.
+The image is built with these extensions:
+
+* pi-llama-cpp - for connecting to llama-server and automatically picking models
+* pi-safeguard - prompts the user before executing some commands
+* pi-exa-mcp - allows web search
 
 
-# Opencode
-
-Opencode runs in the terminal, and I want to let it use the above llama-server, but operate on any one project's files. I've deliberately chosen this way so that the opencode interaction is assistive, and only operating on a single repo at a time. It also has no access to git, so that the act of reviewing code changes is part of the workflow. 
-
-The way I do it is to add a function in my `~/.bashrc` that starts the opencode docker container from whichever project directory I'm in. It points at the opencode.json file included here, and passes the current project directory as the workspace. 
-
-```
-opencode() {
-  export OPENCODE_DIR="/home/mendhak/Projects/local-llm-workspace"
-  export PROJECT_DIR="$(pwd)"
-  docker compose -f "${OPENCODE_DIR}/extras/opencode.yml" up -d opencode
-  docker attach opencode
-}
-
-# or, without compose, just a throwaway session:
-
-opencode() {
-docker run -it --rm --network container:llama-server -v "/home/mendhak/Projects/llama-cpp-qwen-models/configs/opencode.json:/root/.config/opencode/opencode.json" -v "${PWD}:/workspace" -w /workspace ghcr.io/anomalyco/opencode --agent plan
-}
-```
-
-I can then just run `opencode` in any directory. It will start the container, connect to the llama server, and let me use opencode in that directory.
 
 
 # Notes on benchmarking with llama-bench
@@ -183,10 +165,4 @@ docker run --rm  --gpus all -v /mnt/Extra/Models:/models --entrypoint ./llama-be
 ```
 
 
-## TODO
-
-Try guardrail plugins for pi. These are:
-
-* https://github.com/dtmirizzi/pi-governance 
-* https://github.com/aliou/pi-guardrails 
-* https://github.com/mgabor3141/yapp  (pi-safeguard) 
+ 
