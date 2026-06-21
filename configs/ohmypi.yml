@@ -1,7 +1,0 @@
-providers:
-  llama.cpp:
-    baseUrl: http://localhost:8080
-    api: openai-responses
-    auth: none
-    discovery:
-      type: llama.cpp
