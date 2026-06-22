@@ -24,7 +24,7 @@ These are various models I downloaded and tried and found useful. They can be in
 
 - **Qwen3.6 35B** - [unsloth/Qwen3.6-35B-A3B-GGUF](https://huggingface.co/unsloth/Qwen3.6-35B-A3B-GGUF) `Qwen3.6-35B-A3B-MXFP4_MOE.gguf`, `Qwen3.6-35B-A3B-UD-Q8_K_XL.gguf` 
 - **Qwen3.5 27B** - [unsloth/Qwen3.5-27B-GGUF](https://huggingface.co/unsloth/Qwen3.5-27B-GGUF) - `Qwen3.5-27B-IQ4_XS.gguf`, `Qwen3.5-27B-Q3_K_M.gguf`
-- **Gemma 4 26B A4B** - [unsloth/gemma-4-26B-A4B-it-qat-GGUF](https://huggingface.co/unsloth/gemma-4-26B-A4B-it-qat-GGUF) - `gemma-4-26B-A4B-it-qat-UD-Q4_K_XL.gguf` with [`gemma-4-26b-A4B-it-assistant-Q4_0-q4emb.gguf`](https://huggingface.co/RachidAR/gemma-4-26B-A4B-it-qat-assistant-q4_0-gguf/tree/main). 
+- **Gemma 4 26B A4B** - [unsloth/gemma-4-26B-A4B-it-qat-GGUF](https://huggingface.co/unsloth/gemma-4-26B-A4B-it-qat-GGUF) - `gemma-4-26B-A4B-it-qat-UD-Q4_K_XL.gguf` with [`mtp-gemma-4-26B-A4B-it.gguf`](https://huggingface.co/unsloth/gemma-4-26B-A4B-it-qat-GGUF/blob/main/mtp-gemma-4-26B-A4B-it.gguf) and [chat template](https://huggingface.co/google/gemma-4-26B-A4B-it/tree/main). 
 - **Qwen3 Coder Next** - [unsloth/Qwen3-Coder-Next-GGUF](https://huggingface.co/unsloth/Qwen3-Coder-Next-GGUF) - `Qwen3-Coder-Next-MXFP4_MOE.gguf`
 
 ## lightweight
