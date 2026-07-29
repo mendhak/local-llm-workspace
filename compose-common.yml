@@ -1,6 +1,6 @@
 services:
   llama-server:
-    image: local/llama.cpp:server-cuda-20260608
+    image: ghcr.io/ggml-org/llama.cpp:server-cuda13
     deploy:
       resources:
         reservations:
