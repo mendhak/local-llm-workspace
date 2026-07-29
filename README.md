@@ -33,11 +33,17 @@ These are various models I downloaded and tried and found useful. They can be in
 - **Qwen3.5 4B** - [unsloth/Qwen3.5-4B-GGUF](https://huggingface.co/unsloth/Qwen3.5-4B-GGUF) - `Qwen3.5-4B-Q4_K_M.gguf`
 - **Gemma 4 E4B** - [unsloth/gemma-4-E4B-it-GGUF](https://huggingface.co/unsloth/gemma-4-E4B-it-GGUF) - `gemma-4-E4B-it-UD-Q8_K_XL.gguf`
 
-# Build llama.cpp for RTX 5080 and Cuda 13.1
+# Llama.cpp Docker Images
 
-On my system, the CUDA version was newer than the llama.cpp docker images had, so I had to build it myself. 
+Use the official docker images from `ghcr.io/ggml-org/llama.cpp`. For CUDA 13 support, use the `server-cuda13` tag.
 
-Clone https://github.com/ggml-org/llama.cpp, then:
+To ensure you have the latest images, run:
+
+```
+docker compose pull
+```
+
+If you still want to build manually, clone https://github.com/ggml-org/llama.cpp, then:
 
 ```
 docker build -t local/llama.cpp:server-cuda-20260608 \
@@ -46,7 +52,6 @@ docker build -t local/llama.cpp:server-cuda-20260608 \
   --target server \
   -f .devops/cuda.Dockerfile .
 ```
-
 
 # Running llama-server with various models 
 
@@ -146,22 +151,12 @@ The image is built with these extensions:
 
 This is a good way of running multiple benchmarks in one go, it outputs the processing speed and token generation speed.
 
-Build this in llama.cpp project directory:
+You can use the official `full-cuda13` tag for benchmarking:
 
 ```
-docker build -t local/llama.cpp:full-20260528 \
---build-arg CUDA_VERSION=13.1.0 \
-  --build-arg CUDA_DOCKER_ARCH=120 \
-  --target full \
-  -f .devops/cuda.Dockerfile .
-```
+docker run --rm  --gpus all -v /mnt/Extra/Models:/models --entrypoint ./llama-bench ghcr.io/ggml-org/llama.cpp:full-cuda13 -m /models/Qwen3.5-9B-Q8_0.gguf -ngl 99 -b 4096,8192,16384 -ub 512,1024,2048,4096,8192 -t 8 -fa 1 -ctk q8_0,f16,bf16,q4_0 -ctv q8_0,f16,bf16,q4_0 -p 512 -n 128 --mmap 1,0 
 
-Then run the benchmark. Examples: 
-
-```
-docker run --rm  --gpus all -v /mnt/Extra/Models:/models --entrypoint ./llama-bench local/llama.cpp:full-20260528 -m /models/Qwen3.5-9B-Q8_0.gguf -ngl 99 -b 4096,8192,16384 -ub 512,1024,2048,4096,8192 -t 8 -fa 1 -ctk q8_0,f16,bf16,q4_0 -ctv q8_0,f16,bf16,q4_0 -p 512 -n 128 --mmap 1,0 
-
-docker run --rm  --gpus all -v /mnt/Extra/Models:/models --entrypoint ./llama-bench local/llama.cpp:full-20260528 -m /models/Qwen3.6-35B-A3B-UD-Q8_K_XL.gguf --fit-target 512 --fit-ctx 65536,131072,262144
+docker run --rm  --gpus all -v /mnt/Extra/Models:/models --entrypoint ./llama-bench ghcr.io/ggml-org/llama.cpp:full-cuda13 -m /models/Qwen3.6-35B-A3B-UD-Q8_K_XL.gguf --fit-target 512 --fit-ctx 65536,131072,262144
 ```
 
 
