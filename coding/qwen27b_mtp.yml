@@ -6,10 +6,9 @@ services:
     environment:
       - GGML_CUDA_DISABLE_GRAPHS=1
       - GGML_CUDA_ENABLE_UNIFIED_MEMORY=1
-    # Models: Qwen3.6-27B-UD-Q4_K_XL_MTP.gguf, Qwen3.6-27B-IQ4_XS_MTP.gguf, Qwen3.6-27B-Q4_K_S_MTP.gguf, Qwen3.6-27B-16GB-VRAM-MTP-mini-IQ4_XS.gguf
-    # If you do Qwen3.6-27B-16GB-VRAM-MTP-mini-IQ4_XS.gguf then remove the override tensor arg.  
+    # Models: Qwen3.6-27B-UD-Q4_K_XL_MTP.gguf, Qwen3.6-27B-IQ4_XS_MTP.gguf, Qwen3.6-27B-Q4_K_S_MTP.gguf
     command: >
-      -m /models/Qwen3.6-27B-16GB-VRAM-MTP-mini-IQ4_XS.gguf
+      -m /models/Qwen3.6-27B-Q4_K_S_MTP.gguf
       --port 8080
       --host 0.0.0.0
       --spec-type draft-mtp,ngram-mod 
@@ -31,4 +30,5 @@ services:
       --repeat-penalty 1.0 
       --flash-attn on 
       --no-mmap 
+      --no-mmproj-offload
       --sleep-idle-seconds 300

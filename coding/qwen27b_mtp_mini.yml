@@ -1,0 +1,22 @@
+services:
+  llama-server:
+    extends:
+      file: ../compose-common.yml
+      service: llama-server
+    environment:
+      - GGML_CUDA_DISABLE_GRAPHS=1
+      - GGML_CUDA_ENABLE_UNIFIED_MEMORY=1
+    # Nice models: Qwen3.6-27B-IQ4_XS_MTP.gguf, Qwen3.6-27B-IQ4_NL.bartowski.gguf
+    command: >
+      -m /models/Qwen3.6-27B-16GB-VRAM-MTP-mini-IQ4_XS.gguf
+      --port 8080
+      --host 0.0.0.0
+      --no-mmap
+      --temp 0.6 --top_p 0.95 --top_k 20 --min_p 0.0 --presence_penalty 0.0 --repeat_penalty 1.0
+      --fit off --ctx-size 65536 -ngl 99
+      --spec-type draft-mtp,ngram-mod --spec-draft-n-max 2 --batch-size 512 --ubatch-size 512 
+      --cache-type-k q5_0 --cache-type-v q4_1
+      --parallel 1
+      --flash-attn on
+      --no-mmproj-offload
+      --sleep-idle-seconds 300
