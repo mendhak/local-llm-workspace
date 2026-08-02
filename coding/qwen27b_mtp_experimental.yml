@@ -1,0 +1,34 @@
+services:
+  llama-server:
+    extends:
+      file: ../compose-common.yml
+      service: llama-server
+    environment:
+      - GGML_CUDA_DISABLE_GRAPHS=1
+      - GGML_CUDA_ENABLE_UNIFIED_MEMORY=1
+    # Models: Qwen3.6-27B-UD-Q4_K_XL_MTP.gguf, Qwen3.6-27B-IQ4_XS_MTP.gguf, Qwen3.6-27B-Q4_K_S_MTP.gguf, Qwen3.6-27B-16GB-VRAM-MTP-mini-IQ4_XS.gguf
+    # If you do Qwen3.6-27B-16GB-VRAM-MTP-mini-IQ4_XS.gguf then remove the override tensor arg.  
+    command: >
+      -m /models/Qwen3.6-27B-16GB-VRAM-MTP-mini-IQ4_XS.gguf
+      --port 8080
+      --host 0.0.0.0
+      --spec-type draft-mtp,ngram-mod 
+      --spec-draft-n-max 2 
+      --fit off 
+      --n-gpu-layers 99 
+      --override-tensor 'blk.([1][5-9]|[2][0-9]|[3][0-7]).ffn_.*=CPU' 
+      --ctx-size 65536 
+      --batch-size 512 
+      --ubatch-size 512 
+      --cache-type-k q5_0 
+      --cache-type-v q4_1 
+      --parallel 1 
+      --temp 0.60 
+      --top-p 0.95 
+      --top-k 20 
+      --min-p 0.0 
+      --presence-penalty 0.0 
+      --repeat-penalty 1.0 
+      --flash-attn on 
+      --no-mmap 
+      --sleep-idle-seconds 300
