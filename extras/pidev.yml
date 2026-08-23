@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile_inline: |
         FROM ubuntu:24.04
-        RUN apt-get update && apt-get install -y curl jq
+        RUN apt-get update && apt-get install -y curl jq zip unzip file lsof yq
         RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash
         RUN apt-get install -y nodejs
 
@@ -16,15 +16,16 @@ services:
             && npm install -g @earendil-works/pi-coding-agent \
             && pi install npm:pi-safeguard \
             && pi install npm:@benvargas/pi-exa-mcp \
-            && pi install npm:pi-llama-cpp
+            && pi install npm:pi-llama-cpp \
+            && pi install npm:@juicesharp/rpiv-ask-user-question
         RUN mkdir -p /home/ubuntu/.pi/agent/
-        
-        RUN curl -LsSf https://astral.sh/uv/install.sh | sh 
-        
+
+        RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+
         CMD ["/bin/bash"]
     container_name: pidev
-    stdin_open: true 
-    tty: true 
+    stdin_open: true
+    tty: true
     restart: no
     volumes:
       - ${PROJECT_DIR:-$PWD}:/workspace
