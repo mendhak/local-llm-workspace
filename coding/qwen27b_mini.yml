@@ -6,6 +6,7 @@ services:
     environment:
       - GGML_CUDA_DISABLE_GRAPHS=1
       - GGML_CUDA_ENABLE_UNIFIED_MEMORY=1
+    # From https://huggingface.co/tooltd/Qwen3.6-27B-mini-IQ4-XS-MTP-16GB-VRAM-GGUF
     command: >
       -m /models/Qwen3.6-27B-16GB-VRAM-MTP-mini-IQ4_XS.gguf
       --port 8080
