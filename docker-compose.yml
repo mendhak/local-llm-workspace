@@ -1,0 +1,26 @@
+services:
+  llama-server:
+    image: ghcr.io/ggml-org/llama.cpp:server-cuda13
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    ports:
+      - "8080:8080"
+    volumes:
+      - /mnt/Extra/Models:/models
+      - ${PWD}/configs/:/configs
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    network_mode: host
+    command:
+      --models-preset /configs/models.ini
+      --models-max 1 
+      --no-models-autoload
