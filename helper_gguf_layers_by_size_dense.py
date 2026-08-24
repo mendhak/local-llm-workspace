@@ -16,7 +16,7 @@ import sys
 
 import gguf
 
-model_path = sys.argv[1] if len(sys.argv) > 1 else "model.gguf"
+model_path = sys.argv[1] if len(sys.argv) > 1 else sys.exit("Error: No file passed", 1)
 reader = gguf.GGUFReader(model_path)
 
 block_scores = {}
