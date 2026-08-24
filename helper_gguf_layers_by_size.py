@@ -8,6 +8,8 @@
 Use this script to figure out the heaviest blocks in a GGUF model. 
 It can then be used in an override tensor argument to move the heaviest blocks to CPU memory, and that can help loading GGUF models for GPU poor people like me. 
 Learned from: https://www.reddit.com/r/LocalLLM/comments/1vq5oyu/guide_for_running_dense_models_on_16_gb_vram_qwen/
+
+uv run helper_gguf_layers_by_size.py '/mnt/Extra/Models/Qwen3.8-27B-UD-Q4_K_M.gguf'
 """
 
 import sys
