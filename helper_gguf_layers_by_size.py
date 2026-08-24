@@ -10,9 +10,11 @@ It can then be used in an override tensor argument to move the heaviest blocks t
 Learned from: https://www.reddit.com/r/LocalLLM/comments/1vq5oyu/guide_for_running_dense_models_on_16_gb_vram_qwen/
 """
 
+import sys
+
 import gguf
 
-model_path = "/mnt/Extra/Models/Qwen3.8-27B-UD-Q4_K_S.gguf"
+model_path = sys.argv[1] if len(sys.argv) > 1 else "model.gguf"
 reader = gguf.GGUFReader(model_path)
 
 block_scores = {}
