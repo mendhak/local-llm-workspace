@@ -20,6 +20,29 @@ services:
             && pi install npm:@juicesharp/rpiv-ask-user-question
         RUN mkdir -p /home/ubuntu/.pi/agent/
 
+        # Create settings.json file
+        RUN cat <<EOF > /home/ubuntu/.pi/agent/settings.json
+          {
+          "llamaSettings": {
+            "servers": [
+              {
+                "url": "http://127.0.0.1:8080",
+                "id": "local",
+                "name": "Local Server"
+              }
+            ],
+            "reactToModelSelect": true,
+            "autoloadOnMessage": true,
+            "pollingTimeout": 60000,
+            "serverTimeout": 1000
+          },
+          "theme": "dark",
+          "packages": [
+            "npm:pi-llama-cpp"
+          ]
+        }
+        EOF
+
         RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 
         CMD ["/bin/bash"]
