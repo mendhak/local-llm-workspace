@@ -9,12 +9,12 @@ services:
               count: all
               capabilities: [gpu]
     ports:
-      - "8080:8080"
+      - "9931:9931"
     volumes:
       - /mnt/Extra/Models:/models
       - ${PWD}/configs/:/configs
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:9931/health"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -24,3 +24,5 @@ services:
       --models-preset /configs/models.ini
       --models-max 1 
       --no-models-autoload
+      --host 0.0.0.0
+      --port 9931
