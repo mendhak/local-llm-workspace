@@ -51,7 +51,7 @@ for block_index in sorted_blocks:
 regex_group = "|".join(map(str, sorted_blocks))
 
 # Target expert tensors specifically for CPU offload
-override_arg = f"--override-tensor 'blk\\.({regex_group})\\.ffn_.*_exps.*=CPU'"
+override_arg = f"override-tensor = blk.({regex_group}).ffn_.*_exps.*=CPU"
 
-print("\nGenerated --override-tensor argument for MoE:")
+print("\nGenerated override-tensor argument for models.ini for MoE:")
 print(override_arg)

@@ -56,8 +56,8 @@ for block_index in sorted_blocks:
     print(f"Block {block_index}: Size = {size_mb:.2f} MB")
 
 regex_group = "|".join(map(str, sorted_blocks))
-override_arg = f"--override-tensor 'blk\\.({regex_group})\\.ffn_.*=CPU'"
+override_arg = f"override-tensor = blk.({regex_group}).ffn_.*=CPU"
 
-print("\n\n\nGenerated --override-tensor argument:")
+print("\n\n\noverride-tensor argument for models.ini:")
 print("\nKeep removing from the right until you reach out of memory, then go back one")
 print(override_arg)
