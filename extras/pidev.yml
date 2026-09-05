@@ -8,7 +8,7 @@ services:
         FROM ubuntu:24.04
         RUN apt-get update && apt-get install -y curl jq zip unzip file lsof yq
         RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash
-        RUN apt-get install -y nodejs
+        RUN apt-get install -y nodejs xclip
 
         USER ubuntu
         ENV PATH="/home/ubuntu/.local/bin:$PATH" 
@@ -20,6 +20,29 @@ services:
             && pi install npm:@juicesharp/rpiv-ask-user-question
         RUN mkdir -p /home/ubuntu/.pi/agent/
 
+        # Create settings.json file
+        RUN cat <<EOF > /home/ubuntu/.pi/agent/settings.json
+          {
+          "llamaSettings": {
+            "servers": [
+              {
+                "url": "http://127.0.0.1:9931",
+                "id": "local",
+                "name": "Local Server"
+              }
+            ],
+            "reactToModelSelect": true,
+            "autoloadOnMessage": true,
+            "pollingTimeout": 60000,
+            "serverTimeout": 1000
+          },
+          "theme": "dark",
+          "packages": [
+            "npm:pi-llama-cpp", "npm:pi-safeguard", "npm:@benvargas/pi-exa-mcp", "npm:@juicesharp/rpiv-ask-user-question"
+          ]
+        }
+        EOF
+
         RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 
         CMD ["/bin/bash"]
@@ -27,7 +50,11 @@ services:
     stdin_open: true
     tty: true
     restart: no
+    environment:
+      - DISPLAY=${DISPLAY:-:0}
     volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
+      - ~/.Xauthority:/root/.Xauthority:ro
       - ${PROJECT_DIR:-$PWD}:/workspace
       - pidev-data:/home/ubuntu/.pi
     working_dir: /workspace
