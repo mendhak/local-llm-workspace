@@ -88,7 +88,9 @@ It's also a good idea to clear its data directory
 docker compose -f extras/pidev.yml down && docker volume rm extras_pidev-data
 ```
 
-# MCP
+# Other notes
+
+## MCP
 
 To make use of MCP servers in the llama.cpp web interface, start the server together with the MCP proxy:
 
@@ -102,7 +104,7 @@ Then add these URLs in llama chat's MCP settings. Yes, it's `localhost`.
 * http://localhost:8096/servers/fetch/mcp
 * http://localhost:8096/servers/ddg-search/mcp
 
-# Helper scripts: finding which layers to offload to CPU
+## Helper scripts: finding which layers to offload to CPU
 
 If you're GPU poor like me, you can offload the heaviest blocks of a model to CPU RAM with an `override-tensor` argument in `models.ini`. The two helper scripts figure out which blocks are heaviest for you:
 
@@ -112,3 +114,17 @@ uv run helper_gguf_layers_by_size_moe.py /mnt/Extra/Models/some-moe-model.gguf
 ```
 
 They print the block sizes (heaviest first, MTP blocks excluded) and a ready-to-paste `override-tensor = blk.(...).ffn_.*=CPU` line. Keep removing blocks from the right until you hit out of memory, then go back one.
+
+## Support for pasting images
+
+To allow pasting, the pi.dev image has `xclip` installed, along with these docker compose modifications
+
+```
+    environment:
+      - DISPLAY=${DISPLAY:-:0}
+     volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
+      - ~/.Xauthority:/root/.Xauthority:ro
+```
+
+To paste an image, copy to clipboard, then in pi.dev, just Ctrl+V. It will show a file path like `/tmp/pi-clipboard-xxx.png`. As long as the loaded model has vision capabilities, you can tell it to read the image. 
