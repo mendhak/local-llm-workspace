@@ -92,17 +92,9 @@ docker compose -f extras/pidev.yml down && docker volume rm extras_pidev-data
 
 ## MCP
 
-To make use of MCP servers in the llama.cpp web interface, start the server together with the MCP proxy:
+The Web UI has been configured to include two additional MCP servers, one for DuckDuckGo search and one for fetching URLs. They can be seen under `+` → `Tools`. 
 
-```
-docker compose -f docker-compose.yml -f extras/mcp.yml up
-```
-
-Then add these URLs in llama chat's MCP settings. Yes, it's `localhost`.
-
-* http://localhost:8096/servers/time/mcp
-* http://localhost:8096/servers/fetch/mcp
-* http://localhost:8096/servers/ddg-search/mcp
+Adding more is easy, follow the pattern in [configs/mcp_config.json](configs/mcp_config.json). 
 
 ## Helper scripts: finding which layers to offload to CPU
 

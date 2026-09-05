@@ -1,16 +1,18 @@
 {
   "mcpServers": {
-    "time": {
-      "command": "uvx",
-      "args": ["mcp-server-time", "--local-timezone=Europe/London"]
+    "ddg-search": {
+      "command": "/bin/sh",
+      "args": [
+        "-c",
+        "if ! command -v uvx >/dev/null 2>&1; then curl -LsSf https://astral.sh/uv/install.sh | sh; fi && /root/.local/bin/uvx duckduckgo-mcp-server"
+      ]
     },
     "fetch": {
-      "command": "uvx",
-      "args": ["mcp-server-fetch"]
-    },
-    "ddg-search": {
-      "command": "uvx",
-      "args": ["duckduckgo-mcp-server"]
+      "command": "/bin/sh",
+      "args": [
+        "-c",
+        "if ! command -v uvx >/dev/null 2>&1; then curl -LsSf https://astral.sh/uv/install.sh | sh; fi && /root/.local/bin/uvx mcp-server-fetch"
+      ]
     }
   }
 }
