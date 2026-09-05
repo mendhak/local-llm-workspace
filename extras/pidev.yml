@@ -8,7 +8,7 @@ services:
         FROM ubuntu:24.04
         RUN apt-get update && apt-get install -y curl jq zip unzip file lsof yq
         RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash
-        RUN apt-get install -y nodejs
+        RUN apt-get install -y nodejs xclip
 
         USER ubuntu
         ENV PATH="/home/ubuntu/.local/bin:$PATH" 
@@ -50,7 +50,11 @@ services:
     stdin_open: true
     tty: true
     restart: no
+    environment:
+      - DISPLAY=${DISPLAY:-:0}
     volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
+      - ~/.Xauthority:/root/.Xauthority:ro
       - ${PROJECT_DIR:-$PWD}:/workspace
       - pidev-data:/home/ubuntu/.pi
     working_dir: /workspace
