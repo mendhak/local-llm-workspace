@@ -1,4 +1,5 @@
-This project provides a local, self-contained environment for running LLMs with chat or coding capabilities. It uses llama-server and pi.dev in docker containers, and provides docker compose files to run various models.
+This project provides a local, self-contained environment for running LLMs with chat or coding capabilities. It uses llama-server and pi.dev in a docker container, and provides a preset configuration file to load the various models. 
+
 
 Some aspects of the project are specific to my hardware, but the general approach should be transferable to other systems.  
 
@@ -6,111 +7,39 @@ Some aspects of the project are specific to my hardware, but the general approac
 
 I want to run LLMs locally for privacy, cost, and dependency reasons. While it won't achieve the same performance as cloud hosted models, it can be good enough for simple tasks like chat and coding. 
 
-I also want to be able to run local models safely without compromising the security of my host system. This is achieved by running llama and pi.dev in isolated docker containers, and sharing only necessary files and ports. 
+I also want to be able to run local models safely without compromising the security of my host system. This is achieved by running llama and pi.dev in isolated docker containers, and sharing only necessary files and ports.
 
-
-
+The models chosen are aimed at running on my 16 GB VRAM system.
 
 # Model download
 
-These are various models I downloaded and tried and found useful. They can be interchanged in the docker compose files. 
+These are various models I downloaded and tried and found useful.
 
-## chat
-
-- **Qwen3.6 35B** - [unsloth/Qwen3.5-35B-A3B-GGUF](https://huggingface.co/unsloth/Qwen3.5-35B-A3B-GGUF/tree/main) `Qwen3.6-35B-A3B-MXFP4_MOE.gguf`, `Qwen3.6-35B-A3B-UD-Q8_K_XL.gguf` 
-- **Gemma 4 26B A4B** - [unsloth/gemma-4-26B-A4B-it-qat-GGUF](https://huggingface.co/unsloth/gemma-4-26B-A4B-it-qat-GGUF) - `gemma-4-26B-A4B-it-qat-UD-Q4_K_XL.gguf` with [`gemma-4-26b-A4B-it-assistant-Q4_0-q4emb.gguf`](https://huggingface.co/RachidAR/gemma-4-26B-A4B-it-qat-assistant-q4_0-gguf/tree/main). 
-
-## coding
-
-- **Qwen3.6 35B** - [unsloth/Qwen3.6-35B-A3B-GGUF](https://huggingface.co/unsloth/Qwen3.6-35B-A3B-GGUF) `Qwen3.6-35B-A3B-MXFP4_MOE.gguf`, `Qwen3.6-35B-A3B-UD-Q8_K_XL.gguf` 
-- **Qwen3.5 27B** - [unsloth/Qwen3.5-27B-GGUF](https://huggingface.co/unsloth/Qwen3.5-27B-GGUF) - `Qwen3.5-27B-IQ4_XS.gguf`, `Qwen3.5-27B-Q3_K_M.gguf`
-- **Gemma 4 26B A4B** - [unsloth/gemma-4-26B-A4B-it-qat-GGUF](https://huggingface.co/unsloth/gemma-4-26B-A4B-it-qat-GGUF) - `gemma-4-26B-A4B-it-qat-UD-Q4_K_XL.gguf` with [`mtp-gemma-4-26B-A4B-it.gguf`](https://huggingface.co/unsloth/gemma-4-26B-A4B-it-qat-GGUF/blob/main/mtp-gemma-4-26B-A4B-it.gguf) and [chat template](https://huggingface.co/google/gemma-4-26B-A4B-it/tree/main). 
-- **Qwen3 Coder Next** - [unsloth/Qwen3-Coder-Next-GGUF](https://huggingface.co/unsloth/Qwen3-Coder-Next-GGUF) - `Qwen3-Coder-Next-MXFP4_MOE.gguf`
-
-## lightweight
-
-- **Qwen3.5 9B** - [unsloth/Qwen3.5-9B-GGUF](https://huggingface.co/unsloth/Qwen3.5-9B-GGUF) - `Qwen3.5-9B-Q8_0.gguf`
-- **Qwen3.5 4B** - [unsloth/Qwen3.5-4B-GGUF](https://huggingface.co/unsloth/Qwen3.5-4B-GGUF) - `Qwen3.5-4B-Q4_K_M.gguf`
-- **Gemma 4 E4B** - [unsloth/gemma-4-E4B-it-GGUF](https://huggingface.co/unsloth/gemma-4-E4B-it-GGUF) - `gemma-4-E4B-it-UD-Q8_K_XL.gguf`
-
-# Llama.cpp Docker Images
-
-Use the official docker images from `ghcr.io/ggml-org/llama.cpp`. For CUDA 13 support, use the `server-cuda13` tag.
-
-To ensure you have the latest images, run:
-
-```
-docker compose pull
-```
-
-If you still want to build manually, clone https://github.com/ggml-org/llama.cpp, then:
-
-```
-docker build -t local/llama.cpp:server-cuda-20260608 \
---build-arg CUDA_VERSION=13.1.0 \
-  --build-arg CUDA_DOCKER_ARCH=120 \
-  --target server \
-  -f .devops/cuda.Dockerfile .
-```
-
-# Running llama-server with various models 
-
-In all cases, run the docker compose command, wait a bit, then browse to http://localhost:8080 
+* Qwen 35B 
+* Qwen Coder Next
+* Qwen 27B
+* Gemma 4 26B
 
 
 
-## Qwen3.6 35B, for chat
+Each model download link is in the [configs/models.ini](configs/models.ini) file.
 
-This is a MOE - mixture of experts. It doesn't load the whole model into GPU, just parts as needed. It does work quite fast, good for general purpose chat. It can be used with the MCP for some web search capabilities.
+## How it works
 
-```
-docker compose -f chat/qwen35B.yml -f extras/mcp.yml up 
-```
+STart the server with `docker compose up`, then open the web interface at http://localhost:9931 or use pi.dev to connect to it. 
 
-I got about 65 tokens per second. 
+The `docker-compose.yml` uses the latest official docker image, and runs llama-server in router mode - it just listens but doesn't load any model on startup.
 
-To make use of the MCP servers, add these URLs in llama chat's MCP settings. Yes, it's `localhost`. 
+The model to use can be selected from the web interface model selector or pi.dev's model selector.
 
-* http://localhost:8096/servers/time/mcp
-* http://localhost:8096/servers/fetch/mcp
-* http://localhost:8096/servers/ddg-search/mcp
+The models are loaded from [configs/models.ini](configs/models.ini), each section has  arguments used to load that model optimally.
 
-## Qwen3.6 35B, for coding
-
-
-The same model but with slightly different parameters. To use it: 
-
-```
-docker compose -f coding/qwen35B.yml up
-```
-
-
-
-## Qwen3 Coder Next, for coding
-
-```
-docker compose -f coding/qwen.codernext.yml up 
-```
-
-
-## Qwen3.5 9B Q8_0
-
-```
-docker compose -f lightweight/qwen9B.yml up llama-server
-```
-
-
-## Qwen3.5 4B, lightweight CPU option
-
-A small, fast model that runs on CPU without requiring GPU. Good for simple tasks or systems without CUDA.
-
-```
-docker compose -f lightweight/qwen4B.yml up
-```
 
 # Pi.dev
 
-Pi.dev runs in the terminal, and I want to let it use the llama-server, but operate on any one project's files. I've deliberately chosen this way so that the pi.dev interaction is assistive, and only operating on a single repo at a time. It also has no access to git, so that the act of reviewing code changes is part of the workflow.
+Pi.dev is an agent harness that runs in the terminal. I want to let it use the llama-server, and operate on any arbitrary directory. It runs in a docker container instead of the host system. 
+
+I've deliberately chosen this way so that the pi.dev interaction is assistive, and only operating on a single repo at a time. It also has no access to git, so that the act of reviewing code changes is part of the workflow.
 
 The way I do it is to add a function in my `~/.bashrc` that starts the pi.dev docker container from whichever project directory I'm in. It passes the current project directory as the workspace. Note that the container starts with bash, so we use `docker exec` to launch pi inside it.
 
@@ -129,7 +58,7 @@ pidev() {
 # or, without compose, just a throwaway session:
 
 pidev() {
-docker run -it --rm --network container:llama-server -v "${PWD}:/workspace" -w /workspace local/pidev pi
+docker run -it --rm --network host -v "${PWD}:/workspace" -w /workspace local/pidev pi
 }
 ```
 
@@ -143,21 +72,43 @@ The image is built with these extensions:
 * pi-llama-cpp - for connecting to llama-server and automatically picking models
 * pi-safeguard - prompts the user before executing some commands
 * pi-exa-mcp - allows web search
+* juicesharp/rpiv-ask-user-question - interactively ask user questions
 
+## Updating pi.dev
 
-
-
-# Notes on benchmarking with llama-bench
-
-This is a good way of running multiple benchmarks in one go, it outputs the processing speed and token generation speed.
-
-You can use the official `full-cuda13` tag for benchmarking:
+When it's necessary to rebuild pi.dev, use
 
 ```
-docker run --rm  --gpus all -v /mnt/Extra/Models:/models --entrypoint ./llama-bench ghcr.io/ggml-org/llama.cpp:full-cuda13 -m /models/Qwen3.5-9B-Q8_0.gguf -ngl 99 -b 4096,8192,16384 -ub 512,1024,2048,4096,8192 -t 8 -fa 1 -ctk q8_0,f16,bf16,q4_0 -ctv q8_0,f16,bf16,q4_0 -p 512 -n 128 --mmap 1,0 
-
-docker run --rm  --gpus all -v /mnt/Extra/Models:/models --entrypoint ./llama-bench ghcr.io/ggml-org/llama.cpp:full-cuda13 -m /models/Qwen3.6-35B-A3B-UD-Q8_K_XL.gguf --fit-target 512 --fit-ctx 65536,131072,262144
+docker compose -f extras/pidev.yml build --no-cache
 ```
 
+It's also a good idea to clear its data directory
 
- 
+```
+docker compose -f extras/pidev.yml down && docker volume rm extras_pidev-data
+```
+
+# MCP
+
+To make use of MCP servers in the llama.cpp web interface, start the server together with the MCP proxy:
+
+```
+docker compose -f docker-compose.yml -f extras/mcp.yml up
+```
+
+Then add these URLs in llama chat's MCP settings. Yes, it's `localhost`.
+
+* http://localhost:8096/servers/time/mcp
+* http://localhost:8096/servers/fetch/mcp
+* http://localhost:8096/servers/ddg-search/mcp
+
+# Helper scripts: finding which layers to offload to CPU
+
+If you're GPU poor like me, you can offload the heaviest blocks of a model to CPU RAM with an `override-tensor` argument in `models.ini`. The two helper scripts figure out which blocks are heaviest for you:
+
+```
+uv run helper_gguf_layers_by_size_dense.py /mnt/Extra/Models/some-dense-model.gguf
+uv run helper_gguf_layers_by_size_moe.py /mnt/Extra/Models/some-moe-model.gguf
+```
+
+They print the block sizes (heaviest first, MTP blocks excluded) and a ready-to-paste `override-tensor = blk.(...).ffn_.*=CPU` line. Keep removing blocks from the right until you hit out of memory, then go back one.
