@@ -38,7 +38,7 @@ services:
           },
           "theme": "dark",
           "packages": [
-            "npm:pi-llama-cpp"
+            "npm:pi-llama-cpp", "npm:pi-safeguard", "npm:@benvargas/pi-exa-mcp", "npm:@juicesharp/rpiv-ask-user-question"
           ]
         }
         EOF
