@@ -1,6 +1,5 @@
 This project provides a local, self-contained environment for running LLMs with chat or coding capabilities. It uses llama-server and pi.dev in a docker container, and provides a preset configuration file to load the various models. 
 
-
 Some aspects of the project are specific to my hardware, but the general approach should be transferable to other systems.  
 
 # Motivation
@@ -20,15 +19,13 @@ These are various models I downloaded and tried and found useful.
 * Qwen 27B
 * Gemma 4 26B
 
-
-
 Each model download link is in the [configs/models.ini](configs/models.ini) file.
 
 ## How it works
 
-STart the server with `docker compose up`, then open the web interface at http://localhost:9931 or use pi.dev to connect to it. 
+Start the server with `docker compose up`, then open the web interface at http://localhost:9931 or use pi.dev to connect to it. 
 
-The `docker-compose.yml` uses the latest official docker image, and runs llama-server in router mode - it just listens but doesn't load any model on startup.
+The `docker-compose.yml` uses the latest official llama.cpp docker image, and runs llama-server in router mode - it just listens but doesn't load any model on startup.
 
 The model to use can be selected from the web interface model selector or pi.dev's model selector.
 
@@ -39,9 +36,9 @@ The models are loaded from [configs/models.ini](configs/models.ini), each sectio
 
 Pi.dev is an agent harness that runs in the terminal. I want to let it use the llama-server, and operate on any arbitrary directory. It runs in a docker container instead of the host system. 
 
-I've deliberately chosen this way so that the pi.dev interaction is assistive, and only operating on a single repo at a time. It also has no access to git, so that the act of reviewing code changes is part of the workflow.
+I've deliberately chosen this way so that the pi.dev interaction is assistive, and only operates on a single repo at a time. It also has no access to git, so that the act of reviewing code changes is deliberate part of the workflow.
 
-The way I do it is to add a function in my `~/.bashrc` that starts the pi.dev docker container from whichever project directory I'm in. It passes the current project directory as the workspace. Note that the container starts with bash, so we use `docker exec` to launch pi inside it.
+To launch pi from anywhere, I add a function in my `~/.bashrc` that starts the pi.dev docker container from whichever project directory I'm in. It passes the current project directory as the workspace. 
 
 ```
 pidev() {
