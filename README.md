@@ -41,28 +41,28 @@ I've deliberately chosen this way so that the pi.dev interaction is assistive, a
 To launch pi from anywhere, I add a function in my `~/.bashrc` that starts the pi.dev docker container from whichever project directory I'm in. It passes the current project directory as the workspace. 
 
 ```
-pidev() {
+pi() {
   export PIDEV_DIR="/home/mendhak/Projects/local-llm-workspace"
   export PROJECT_DIR="$(pwd)"
   docker compose -f "${PIDEV_DIR}/extras/pidev.yml" up -d pidev
   if [ $# -eq 0 ]; then
     docker exec -it pidev pi
   else
-    docker exec -it pidev pi -p "$*"
+    docker exec -it pidev pi --no-session --system-prompt "You are an inline, linux terminal based, adhoc question answerer. Always keep responses short." --thinking off --model lightweight_qwen_9b -p "$*"
   fi
 }
 
 # or, without compose, just a throwaway session:
 
-pidev() {
+pi() {
 docker run -it --rm --network host -v "${PWD}:/workspace" -w /workspace local/pidev pi
 }
 ```
 
-I can then just run `pidev` in any directory. It will start the container, connect to the llama server, and let me use pi.dev in that directory. You can also pass arguments to pi directly:
+I can then just run `pi` in any directory. It will start the container, connect to the llama server, and let me use pi.dev in that directory. You can also pass arguments to pi directly:
 
-* `pidev` - starts pi interactively
-* `pidev "your prompt"` - starts pi with your prompt passed via `-p`
+* `pi` - starts pi interactively
+* `pi What is the capital of Zambia` - starts pi with your prompt passed via `-p`
 
 The image is built with these extensions:
 
